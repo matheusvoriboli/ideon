@@ -20,11 +20,17 @@ export const SideMenu = ({ sections }: SideMenuProps) => {
   const [isCollapsed, setIsCollapsed] = useState(false)
   return (
     <div className="h-screen bg-ideon-dark text-white relative flex flex-col">
-      <div className={`pt-8 pb-4 ${isCollapsed ? 'hidden' : ''}`}>
-        <img src="/ideon-logo.png" alt="Logo" className="h-8 mb-8 px-6" />
+      <div className={`py-8 px-6 ${isCollapsed ? 'hidden' : ''}`}>
+        <img src="/ideon-logo.png" alt="Logo" className="h-8" />
       </div>
 
-      <div className={`flex-1 overflow-y-auto px-0`}>
+      <div
+        className={`flex-1 overflow-y-auto px-0 scrollbar-thin ${isCollapsed ? 'mt-4' : ''}`}
+        style={{
+          scrollbarWidth: 'thin',
+          scrollbarColor: 'rgba(255, 255, 255, 0.3) transparent',
+        }}
+      >
         {sections.map((section, index) => (
           <div
             key={index}

@@ -1,3 +1,3 @@
 // Barrel exports for pages
-export { Inbox } from './Inbox/Inbox'
-export { CoveragePeriods } from './CoveragePeriods/CoveragePeriods'
+export { default as Inbox } from './Inbox/Inbox'
+export { default as CoveragePeriods } from './CoveragePeriods/CoveragePeriods'

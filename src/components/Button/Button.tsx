@@ -13,10 +13,10 @@ const Button = ({
 }: ButtonProps) => {
   return (
     <button
-      className={`flex items-center justify-center p-2 rounded-md cursor-pointer ${className} ${
+      className={`flex items-center justify-center p-2 rounded-lg cursor-pointer ${className} ${
         variant === 'primary'
           ? 'bg-ideon-primary-300 text-white'
-          : 'bg-transparent border-ideon-light border'
+          : 'bg-transparent border-gray-200 border'
       }`}
       onClick={onClick}
     >
