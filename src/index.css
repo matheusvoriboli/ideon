@@ -1,0 +1,18 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-ideon-primary-100: #ff00ff;
+  --color-ideon-primary-200: #3b003b;
+  --color-ideon-primary-300: #890089;
+  --color-ideon-primary-400: #ff89ff;
+  --color-ideon-primary-500: #ffd8ff;
+  --color-ideon-secondary-100: #1b02a3;
+  --color-ideon-secondary-200: #5319fb;
+  --color-ideon-secondary-300: #006af9;
+  --color-ideon-secondary-400: #00c0f9;
+  --color-ideon-secondary-500: #00ffff;
+}
+
+:root {
+  font-family: 'Manrope', sans-serif;
+}
