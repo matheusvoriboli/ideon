@@ -11,8 +11,11 @@
   --color-ideon-secondary-300: #006af9;
   --color-ideon-secondary-400: #00c0f9;
   --color-ideon-secondary-500: #00ffff;
+  --color-ideon-light: #f1f1f3;
+  --color-ideon-dark: #141826;
 }
 
 :root {
   font-family: 'Manrope', sans-serif;
+  -webkit-font-smoothing: antialiased;
 }

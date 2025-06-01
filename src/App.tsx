@@ -1,7 +1,18 @@
-import './App.css'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { Layout } from '~/components'
+import { Inbox, CoveragePeriods } from '~/pages'
 
 function App() {
-  return <h1 className="text-6xl text-ideon-primary-500">Hello world!</h1>
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Inbox />} />
+          <Route path="coverage-periods" element={<CoveragePeriods />} />
+        </Route>
+      </Routes>
+    </Router>
+  )
 }
 
 export default App
