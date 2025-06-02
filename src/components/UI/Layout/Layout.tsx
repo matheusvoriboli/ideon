@@ -12,7 +12,7 @@ import {
   FileSearch,
 } from 'lucide-react'
 import { Outlet } from 'react-router-dom'
-import { Header, SideMenu } from '~/components'
+import { SideMenu, Header } from '~/components'
 
 const sideMenuSections = [
   {
@@ -112,9 +112,9 @@ const Layout = () => {
   return (
     <div className="min-h-screen flex">
       <SideMenu sections={sideMenuSections} />
-      <main className="flex flex-1 flex-col">
+      <main className="h-screen flex flex-1 flex-col">
         <Header />
-        <div className="flex-1 p-4">
+        <div className="flex-1 p-6 overflow-hidden">
           <Outlet />
         </div>
       </main>

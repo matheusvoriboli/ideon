@@ -2,7 +2,7 @@ import { Bell } from 'lucide-react'
 
 const Header: React.FC = () => {
   return (
-    <header>
+    <header className="h-16">
       <div className="px-6">
         <div className="flex justify-between items-center h-16">
           {/* TODO: Send page name as parameter */}
