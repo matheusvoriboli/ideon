@@ -1,172 +1,23 @@
 import { Copy, Search, Settings } from 'lucide-react'
-import { useState } from 'react'
 import { Button, Input, Table, Pagination } from '~/index'
-
-interface TableData {
-  uuid: string
-  organizationName: string
-  carrier: string
-  account: string
-  deliveryConfiguration: string
-}
-
-const mockData: TableData[] = [
-  {
-    uuid: 'c12026',
-    organizationName: 'Product Release Webinar Compa...',
-    carrier: 'SelectHealth',
-    account: 'Normal Account',
-    deliveryConfiguration: '875420',
-  },
-  {
-    uuid: 'c12026',
-    organizationName: 'Demo Group 1',
-    carrier: 'Guardian',
-    account: 'Normal Account',
-    deliveryConfiguration: '12.02.2024',
-  },
-  {
-    uuid: 'c12026',
-    organizationName: 'Demo Group 2',
-    carrier: 'SelectHealth',
-    account: 'Normal Account',
-    deliveryConfiguration: '01.01.2024',
-  },
-  {
-    uuid: 'c12026',
-    organizationName: 'Puma',
-    carrier: 'Guardian',
-    account: 'Normal Account',
-    deliveryConfiguration: '09.03.2024',
-  },
-  {
-    uuid: 'c12026',
-    organizationName: 'Demo Group Inc',
-    carrier: 'Kaiser Permanente',
-    account: 'Normal Account',
-    deliveryConfiguration: '01.01.2024',
-  },
-  {
-    uuid: 'c12026',
-    organizationName: 'Product Release Webinar Compa...',
-    carrier: 'SelectHealth',
-    account: 'Normal Account',
-    deliveryConfiguration: '875420',
-  },
-  {
-    uuid: 'c12026',
-    organizationName: 'Demo Group 1',
-    carrier: 'Guardian',
-    account: 'Normal Account',
-    deliveryConfiguration: '12.02.2024',
-  },
-  {
-    uuid: 'c12026',
-    organizationName: 'Demo Group 2',
-    carrier: 'SelectHealth',
-    account: 'Normal Account',
-    deliveryConfiguration: '01.01.2024',
-  },
-  {
-    uuid: 'c12026',
-    organizationName: 'Puma',
-    carrier: 'Guardian',
-    account: 'Normal Account',
-    deliveryConfiguration: '09.03.2024',
-  },
-  {
-    uuid: 'c12026',
-    organizationName: 'Demo Group Inc',
-    carrier: 'Kaiser Permanente',
-    account: 'Normal Account',
-    deliveryConfiguration: '01.01.2024',
-  },
-  {
-    uuid: 'c12026',
-    organizationName: 'Demo Group Inc',
-    carrier: 'Kaiser Permanente',
-    account: 'Normal Account',
-    deliveryConfiguration: '01.01.2024',
-  },
-  {
-    uuid: 'c12026',
-    organizationName: 'Demo Group Inc',
-    carrier: 'Kaiser Permanente',
-    account: 'Normal Account',
-    deliveryConfiguration: '01.01.2024',
-  },
-  {
-    uuid: 'c12026',
-    organizationName: 'Demo Group Inc',
-    carrier: 'Kaiser Permanente',
-    account: 'Normal Account',
-    deliveryConfiguration: '01.01.2024',
-  },
-  {
-    uuid: 'c12026',
-    organizationName: 'Demo Group Inc',
-    carrier: 'Kaiser Permanente',
-    account: 'Normal Account',
-    deliveryConfiguration: '01.01.2024',
-  },
-  {
-    uuid: 'c12026',
-    organizationName: 'Demo Group Inc',
-    carrier: 'Kaiser Permanente',
-    account: 'Normal Account',
-    deliveryConfiguration: '01.01.2024',
-  },
-  {
-    uuid: 'c12026',
-    organizationName: 'Demo Group Inc',
-    carrier: 'Kaiser Permanente',
-    account: 'Normal Account',
-    deliveryConfiguration: '01.01.2024',
-  },
-  {
-    uuid: 'c12026',
-    organizationName: 'Demo Group Inc',
-    carrier: 'Kaiser Permanente',
-    account: 'Normal Account',
-    deliveryConfiguration: '01.01.2024',
-  },
-]
+import { mockData, useTable } from '~/utils'
 
 const CoveragePeriods: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState(1)
-  const [itemsPerPage, setItemsPerPage] = useState(10)
-  const [searchTerm, setSearchTerm] = useState('')
-
-  // Filtrar dados baseado na pesquisa
-  const filteredData = mockData.filter(
-    item =>
-      item.organizationName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.carrier.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.account.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.uuid.toLowerCase().includes(searchTerm.toLowerCase())
-  )
-
-  // Calcular paginação
-  const totalItems = filteredData.length
-  const totalPages = Math.ceil(totalItems / itemsPerPage)
-  const startIndex = (currentPage - 1) * itemsPerPage
-  const endIndex = startIndex + itemsPerPage
-  const currentData = filteredData.slice(startIndex, endIndex)
-
-  // Handlers
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page)
-  }
-
-  const handleItemsPerPageChange = (newItemsPerPage: number) => {
-    setItemsPerPage(newItemsPerPage)
-    setCurrentPage(1) // Reset to first page when changing items per page
-  }
-
-  const handleSearchChange = (value: string) => {
-    setSearchTerm(value)
-    setCurrentPage(1) // Reset to first page when searching
-  }
+  const {
+    currentPage,
+    itemsPerPage,
+    searchTerm,
+    currentData,
+    totalItems,
+    totalPages,
+    handlePageChange,
+    handleItemsPerPageChange,
+    handleSearchChange,
+  } = useTable({
+    data: mockData,
+    searchFields: ['organizationName', 'carrier', 'account', 'uuid'],
+    initialItemsPerPage: 10,
+  })
 
   return (
     <div className="bg-white px-4 py-8 rounded-md overflow-y-auto">
@@ -217,16 +68,14 @@ const CoveragePeriods: React.FC = () => {
           </Table.Body>
         </Table>
 
-        {totalPages > 1 && (
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            totalItems={totalItems}
-            itemsPerPage={itemsPerPage}
-            onPageChange={handlePageChange}
-            onItemsPerPageChange={handleItemsPerPageChange}
-          />
-        )}
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          totalItems={totalItems}
+          itemsPerPage={itemsPerPage}
+          onPageChange={handlePageChange}
+          onItemsPerPageChange={handleItemsPerPageChange}
+        />
       </div>
     </div>
   )
