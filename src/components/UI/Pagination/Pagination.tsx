@@ -76,6 +76,8 @@ const Pagination: React.FC<PaginationProps> = ({
               ]}
               onChange={value => onItemsPerPageChange(Number(value))}
               className="min-w-[80px]"
+              multiple={false}
+              searchable={false}
             />
           </div>
         )}

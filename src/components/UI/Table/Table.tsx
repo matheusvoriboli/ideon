@@ -28,7 +28,6 @@ interface TableCellProps {
   align?: 'left' | 'center' | 'right'
 }
 
-// Componente principal da tabela
 const Table: React.FC<TableProps> & {
   Header: React.FC<TableHeaderProps>
   Body: React.FC<TableBodyProps>
@@ -46,7 +45,6 @@ const Table: React.FC<TableProps> & {
   )
 }
 
-// Componente do cabeçalho
 const TableHeader: React.FC<TableHeaderProps> = ({
   children,
   className = '',
@@ -54,7 +52,6 @@ const TableHeader: React.FC<TableHeaderProps> = ({
   return <thead className={`bg-ideon-light ${className}`}>{children}</thead>
 }
 
-// Componente do corpo
 const TableBody: React.FC<TableBodyProps> = ({ children, className = '' }) => {
   return (
     <tbody className={`divide-y divide-gray-200 ${className}`}>
@@ -63,20 +60,16 @@ const TableBody: React.FC<TableBodyProps> = ({ children, className = '' }) => {
   )
 }
 
-// Componente da linha
 const TableRow: React.FC<TableRowProps> = ({
   children,
   className = '',
   isHeader = false,
 }) => {
-  const baseClasses = isHeader
-    ? 'border-b border-gray-200'
-    : 'hover:bg-gray-50 transition-colors duration-200'
+  const baseClasses = isHeader ? 'border-b border-gray-200' : ''
 
   return <tr className={`${baseClasses} ${className}`}>{children}</tr>
 }
 
-// Componente da célula
 const TableCell: React.FC<TableCellProps> = ({
   children,
   className = '',
@@ -89,7 +82,7 @@ const TableCell: React.FC<TableCellProps> = ({
     right: 'text-right',
   }
 
-  const baseClasses = isHeader ? 'px-3 py-3' : 'px-3 py-4'
+  const baseClasses = isHeader ? 'px-2 py-3' : 'px-2 py-3'
 
   const Component = isHeader ? 'th' : 'td'
 
@@ -100,7 +93,6 @@ const TableCell: React.FC<TableCellProps> = ({
   )
 }
 
-// Anexando os subcomponentes ao componente principal
 Table.Header = TableHeader
 Table.Body = TableBody
 Table.Row = TableRow

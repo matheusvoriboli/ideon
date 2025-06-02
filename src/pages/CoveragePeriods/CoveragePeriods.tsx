@@ -1,81 +1,50 @@
-import { Copy, Search, Settings } from 'lucide-react'
-import { Button, Input, Table, Pagination } from '~/index'
-import { mockData, useTable } from '~/utils'
+import { Filter, Search, Settings } from 'lucide-react'
+import { useState } from 'react'
+import {
+  Button,
+  Input,
+  CoveragePeriodsFilterOffcanvas,
+  CoveragePeriodsTable,
+} from '~/index'
 
 const CoveragePeriods: React.FC = () => {
-  const {
-    currentPage,
-    itemsPerPage,
-    searchTerm,
-    currentData,
-    totalItems,
-    totalPages,
-    handlePageChange,
-    handleItemsPerPageChange,
-    handleSearchChange,
-  } = useTable({
-    data: mockData,
-    searchFields: ['organizationName', 'carrier', 'account', 'uuid'],
-    initialItemsPerPage: 10,
-  })
+  const [isOffcanvasOpen, setIsOffcanvasOpen] = useState(false)
 
   return (
-    <div className="bg-white px-4 py-8 rounded-md overflow-y-auto">
-      <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Coverage Periods</h1>
-        <div className="flex items-center gap-2">
-          <Button variant="outline" onClick={() => {}}>
-            <Settings />
+    <div className="bg-white rounded-md h-full flex flex-col">
+      <CoveragePeriodsFilterOffcanvas
+        isOpen={isOffcanvasOpen}
+        onClose={() => setIsOffcanvasOpen(false)}
+      />
+
+      <div className="p-4 pt-6 border-b border-gray-200">
+        <div className="flex justify-between items-center">
+          <h1 className="text-2xl font-bold">Coverage Periods</h1>
+          <div className="flex items-center gap-2">
+            <Button variant="outline" onClick={() => {}}>
+              <Settings />
+            </Button>
+            <Button variant="outline" onClick={() => {}}>
+              Export CSV
+            </Button>
+            <Input
+              value={''}
+              onChange={() => {}}
+              placeholder="Search"
+              icon={<Search size={16} />}
+            />
+          </div>
+        </div>
+        <div className="flex items-center gap-2 mt-4">
+          <Button variant="outline" onClick={() => setIsOffcanvasOpen(true)}>
+            <Filter size={16} />
+            Filter
           </Button>
-          <Button variant="outline" onClick={() => {}}>
-            Export CSV
-          </Button>
-          <Input
-            value={searchTerm}
-            onChange={handleSearchChange}
-            placeholder="Search"
-            icon={<Search size={16} />}
-          />
         </div>
       </div>
-      <div className="mt-8">
-        <Table>
-          <Table.Header>
-            <Table.Row isHeader>
-              <Table.Cell isHeader>UUID</Table.Cell>
-              <Table.Cell isHeader>Organization Name</Table.Cell>
-              <Table.Cell isHeader>Carrier</Table.Cell>
-              <Table.Cell isHeader>Account</Table.Cell>
-              <Table.Cell isHeader>Delivery Configuration</Table.Cell>
-            </Table.Row>
-          </Table.Header>
 
-          <Table.Body>
-            {currentData.map((item, index) => (
-              <Table.Row key={index}>
-                <Table.Cell>
-                  <div className="flex items-center gap-3 text-ideon-primary-300 font-semibold">
-                    <Copy size={16} />
-                    {item.uuid}
-                  </div>
-                </Table.Cell>
-                <Table.Cell>{item.organizationName}</Table.Cell>
-                <Table.Cell>{item.carrier}</Table.Cell>
-                <Table.Cell>{item.account}</Table.Cell>
-                <Table.Cell>{item.deliveryConfiguration}</Table.Cell>
-              </Table.Row>
-            ))}
-          </Table.Body>
-        </Table>
-
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          totalItems={totalItems}
-          itemsPerPage={itemsPerPage}
-          onPageChange={handlePageChange}
-          onItemsPerPageChange={handleItemsPerPageChange}
-        />
+      <div className="flex-1 px-4 py-6 overflow-hidden">
+        <CoveragePeriodsTable />
       </div>
     </div>
   )

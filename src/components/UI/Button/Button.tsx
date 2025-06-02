@@ -15,7 +15,7 @@ const Button = ({
 }: ButtonProps) => {
   return (
     <button
-      className={`flex items-center justify-center p-2 rounded-lg cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-gray-100 ${className} ${
+      className={`flex items-center justify-center p-2 rounded-lg gap-2 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-gray-100 ${className} ${
         variant === 'primary'
           ? 'bg-ideon-primary-300 text-white'
           : 'bg-transparent border-gray-200 border'
