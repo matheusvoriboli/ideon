@@ -112,7 +112,7 @@ const Layout = () => {
   return (
     <div className="min-h-screen flex">
       <SideMenu sections={sideMenuSections} />
-      <main className="flex flex-1 flex-col">
+      <main className="h-screen overflow-y-auto flex flex-1 flex-col">
         <Header />
         <div className="flex-1 p-4">
           <Outlet />
