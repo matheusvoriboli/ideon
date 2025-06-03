@@ -5,6 +5,7 @@ type ButtonProps = {
   className?: string
   disabled?: boolean
   size?: 'sm' | 'md' | 'lg'
+  type?: 'button' | 'submit' | 'reset'
 }
 
 const Button = ({
@@ -14,10 +15,11 @@ const Button = ({
   className,
   disabled,
   size = 'md',
+  type = 'button',
 }: ButtonProps) => {
   return (
     <button
-      className={`flex items-center justify-center rounded-lg gap-2 cursor-pointer text-nowrap disabled:cursor-not-allowed hover:opacity-80 hover:bg-gray-100 hover:transition-all duration-300 disabled:opacity-50 disabled:bg-gray-100 ${className} 
+      className={`flex items-center justify-center rounded-lg gap-2 cursor-pointer text-nowrap disabled:cursor-not-allowed hover:opacity-80 disabled:opacity-50 disabled:bg-gray-100 ${className} 
       ${size === 'sm' && 'p-2 text-sm'}
       ${size === 'md' && 'p-2.5 text-sm'}
       ${size === 'lg' && 'p-3 text-base'}
@@ -28,6 +30,7 @@ const Button = ({
       }`}
       onClick={onClick}
       disabled={disabled}
+      type={type}
     >
       {children}
     </button>

@@ -1,26 +1,31 @@
 import { useState } from 'react'
+import { UseFormReturn } from 'react-hook-form'
 import { Button, Dropdown, Offcanvas, RadioButton, Tabs } from '~/index'
+import { type CoveragePeriodsFiltersForm, DistributionFormat } from '~/utils'
 
 const CoveragePeriodsFilterOffcanvas = ({
   isOpen,
   onClose,
+  methods,
+  onSubmit,
+  onReset,
 }: {
   isOpen: boolean
   onClose: () => void
+  methods: UseFormReturn<CoveragePeriodsFiltersForm>
+  onSubmit: (data: CoveragePeriodsFiltersForm) => void
+  onReset: () => void
 }) => {
-  const [organizationFilter, setOrganizationFilter] = useState<
-    (string | number)[]
-  >([])
-  const [carrierFilter, setCarrierFilter] = useState<(string | number)[]>([])
-  const [distributionFormat, setDistributionFormat] = useState<'Edi' | 'Api'>(
-    'Edi'
-  )
-  const [coverageStartDate, setCoverageStartDate] = useState<string>('')
-  const [coverageEndDate, setCoverageEndDate] = useState<string>('')
-  const [setupCompletion, setSetupCompletion] = useState<string>('')
   const [activeTab, setActiveTab] = useState<'filter' | 'saved-filters'>(
     'filter'
   )
+
+  const { register, watch, setValue, handleSubmit } = methods
+
+  const handleFormSubmit = handleSubmit(data => {
+    onSubmit(data)
+  })
+
   return (
     <Offcanvas isOpen={isOpen} onClose={onClose}>
       <div className="mb-6">
@@ -35,11 +40,11 @@ const CoveragePeriodsFilterOffcanvas = ({
         />
       </div>
       {activeTab === 'filter' ? (
-        <div>
+        <form onSubmit={handleFormSubmit}>
           <div className="space-y-4 flex-1 overflow-y-auto">
             <Dropdown
               label="Organization Name"
-              value={organizationFilter}
+              value={watch('organization')}
               options={[
                 { label: 'Amazon', value: 'amazon' },
                 { label: 'Middo', value: 'middo' },
@@ -50,24 +55,22 @@ const CoveragePeriodsFilterOffcanvas = ({
                 },
                 { label: 'Puma', value: 'puma' },
               ]}
-              onChange={value => {
-                setOrganizationFilter(value as (string | number)[])
-              }}
+              onChange={value => setValue('organization', value as string[])}
               multiple
               searchable
             />
+
             <Dropdown
               label="Group"
-              value={carrierFilter}
+              value={watch('group')}
               options={[
                 { label: 'Group A', value: 'group-a' },
                 { label: 'Group B', value: 'group-b' },
                 { label: 'Group C', value: 'group-c' },
               ]}
-              onChange={value => {
-                setCarrierFilter(value as (string | number)[])
-              }}
+              onChange={value => setValue('group', value as string)}
             />
+
             <div className="flex flex-col mb-2">
               <label className="text-sm font-semibold">
                 Distribution Format
@@ -78,8 +81,12 @@ const CoveragePeriodsFilterOffcanvas = ({
                 <RadioButton
                   name="distribution-format"
                   value="Edi"
-                  checked={distributionFormat === 'Edi'}
-                  onChange={() => setDistributionFormat('Edi')}
+                  checked={
+                    watch('distributionFormat') === DistributionFormat.Edi
+                  }
+                  onChange={() =>
+                    setValue('distributionFormat', DistributionFormat.Edi)
+                  }
                   label="Edi"
                 />
               </div>
@@ -87,93 +94,108 @@ const CoveragePeriodsFilterOffcanvas = ({
                 <RadioButton
                   name="distribution-format"
                   value="Api"
-                  checked={distributionFormat === 'Api'}
-                  onChange={() => setDistributionFormat('Api')}
+                  checked={
+                    watch('distributionFormat') === DistributionFormat.Api
+                  }
+                  onChange={() =>
+                    setValue('distributionFormat', DistributionFormat.Api)
+                  }
                   label="Api"
                 />
               </div>
             </div>
+
             <div className="flex gap-2 items-end">
               <Dropdown
                 label="Coverage Start Date"
-                value={coverageStartDate}
+                value={watch('coverageStartDate.relative')}
                 options={[
                   { label: 'Before', value: 'before' },
                   { label: 'After', value: 'after' },
                 ]}
-                onChange={value => {
-                  setCoverageStartDate(value as string)
-                }}
+                onChange={value =>
+                  setValue(
+                    'coverageStartDate.relative',
+                    value as 'before' | 'after'
+                  )
+                }
                 className="w-full"
               />
               <input
                 type="date"
-                placeholder="Search"
+                {...register('coverageStartDate.date')}
                 className="w-full p-2 rounded-lg border border-gray-300"
               />
             </div>
+
             <div className="flex gap-2 items-end">
               <Dropdown
                 label="Coverage End Date"
-                value={coverageEndDate}
+                value={watch('coverageEndDate.relative')}
                 options={[
                   { label: 'Before', value: 'before' },
                   { label: 'After', value: 'after' },
                 ]}
-                onChange={value => {
-                  setCoverageEndDate(value as string)
-                }}
+                onChange={value =>
+                  setValue(
+                    'coverageEndDate.relative',
+                    value as 'before' | 'after'
+                  )
+                }
                 className="w-full"
               />
               <input
                 type="date"
-                placeholder="Search"
+                {...register('coverageEndDate.date')}
                 className="w-full p-2 rounded-lg border border-gray-300"
               />
             </div>
+
             <div className="flex gap-2 items-end">
               <Dropdown
                 label="Setup Complete At"
-                value={setupCompletion}
+                value={watch('setupCompletion.relative')}
                 options={[
                   { label: 'Before', value: 'before' },
                   { label: 'After', value: 'after' },
                 ]}
-                onChange={value => {
-                  setSetupCompletion(value as string)
-                }}
+                onChange={value =>
+                  setValue(
+                    'setupCompletion.relative',
+                    value as 'before' | 'after'
+                  )
+                }
                 className="w-full"
               />
               <input
                 type="date"
-                placeholder="Search"
+                {...register('setupCompletion.date')}
                 className="w-full p-2 rounded-lg border border-gray-300"
               />
             </div>
+
             <Dropdown
               label="Carrier"
-              value={carrierFilter}
+              value={watch('carrier')}
               options={[
                 { label: 'Group A', value: 'group-a' },
                 { label: 'Group B', value: 'group-b' },
                 { label: 'Group C', value: 'group-c' },
               ]}
-              onChange={value => {
-                setCarrierFilter(value as (string | number)[])
-              }}
+              onChange={value => setValue('carrier', value as string)}
             />
+
             <Dropdown
               label="State"
-              value={carrierFilter}
+              value={watch('state')}
               options={[
                 { label: 'Group A', value: 'group-a' },
                 { label: 'Group B', value: 'group-b' },
                 { label: 'Group C', value: 'group-c' },
               ]}
-              onChange={value => {
-                setCarrierFilter(value as (string | number)[])
-              }}
+              onChange={value => setValue('state', value as string)}
             />
+
             <div>
               <Button
                 size="sm"
@@ -185,27 +207,16 @@ const CoveragePeriodsFilterOffcanvas = ({
               </Button>
             </div>
           </div>
+
           <div className="flex gap-2 pt-4 mt-auto absolute bottom-0 left-0 right-0 p-6 border-t border-gray-300">
-            <Button
-              variant="outline"
-              className="flex-1"
-              onClick={() => {
-                setOrganizationFilter([])
-                setCarrierFilter([])
-              }}
-            >
+            <Button variant="outline" className="flex-1" onClick={onReset}>
               Reset
             </Button>
-            <Button
-              className="flex-1"
-              onClick={() => {
-                onClose()
-              }}
-            >
+            <Button type="submit" className="flex-1" onClick={() => {}}>
               Apply
             </Button>
           </div>
-        </div>
+        </form>
       ) : (
         <div>
           <div className="space-y-4 flex-1 overflow-y-auto">

@@ -1,20 +1,44 @@
 import { Filter, Search, Settings } from 'lucide-react'
 import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 import {
   Button,
   Input,
   CoveragePeriodsFilterOffcanvas,
   CoveragePeriodsTable,
 } from '~/index'
+import {
+  coveragePeriodsFiltersSchema,
+  defaultCoveragePeriodsFilters,
+  type CoveragePeriodsFiltersForm,
+} from '~/utils/schemas/coveragePeriodsSchema'
 
 const CoveragePeriods: React.FC = () => {
   const [isOffcanvasOpen, setIsOffcanvasOpen] = useState(false)
+
+  const methods = useForm<CoveragePeriodsFiltersForm>({
+    resolver: zodResolver(coveragePeriodsFiltersSchema),
+    defaultValues: defaultCoveragePeriodsFilters,
+  })
+
+  const onSubmit = (data: CoveragePeriodsFiltersForm) => {
+    console.log('Filters applied:', data)
+    setIsOffcanvasOpen(false)
+  }
+
+  const handleReset = () => {
+    methods.reset(defaultCoveragePeriodsFilters)
+  }
 
   return (
     <div className="bg-white rounded-md h-full flex flex-col">
       <CoveragePeriodsFilterOffcanvas
         isOpen={isOffcanvasOpen}
         onClose={() => setIsOffcanvasOpen(false)}
+        methods={methods}
+        onSubmit={onSubmit}
+        onReset={handleReset}
       />
 
       <div className="p-4 pt-6 border-b border-gray-300">
