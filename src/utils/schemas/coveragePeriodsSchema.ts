@@ -1,13 +1,11 @@
 import { z } from 'zod'
 import { DistributionFormat } from '../enums'
 
-// Schema para DateFilter
 const dateFilterSchema = z.object({
   date: z.string(),
-  relative: z.enum(['before', 'after']),
+  relative: z.enum(['before', 'after']).optional(),
 })
 
-// Schema principal para os filtros
 export const coveragePeriodsFiltersSchema = z.object({
   organization: z.array(z.string()),
   group: z.string(),
@@ -19,18 +17,25 @@ export const coveragePeriodsFiltersSchema = z.object({
   state: z.string(),
 })
 
-// Tipo inferido do schema
+export const savedFilterSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  isDefault: z.boolean(),
+  filters: coveragePeriodsFiltersSchema,
+  createdAt: z.date(),
+})
+
 export type CoveragePeriodsFiltersForm = z.infer<
   typeof coveragePeriodsFiltersSchema
 >
+export type SavedFilter = z.infer<typeof savedFilterSchema>
 
-// Valores padrão
 export const defaultCoveragePeriodsFilters: CoveragePeriodsFiltersForm = {
   organization: [],
   group: '',
-  coverageStartDate: { date: '', relative: 'before' },
-  coverageEndDate: { date: '', relative: 'after' },
-  setupCompletion: { date: '', relative: 'before' },
+  coverageStartDate: { date: '', relative: undefined },
+  coverageEndDate: { date: '', relative: undefined },
+  setupCompletion: { date: '', relative: undefined },
   distributionFormat: DistributionFormat.Edi,
   carrier: '',
   state: '',

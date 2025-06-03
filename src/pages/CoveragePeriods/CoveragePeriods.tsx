@@ -1,5 +1,5 @@
 import { Filter, Search, Settings } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
@@ -10,35 +10,50 @@ import {
 } from '~/index'
 import {
   coveragePeriodsFiltersSchema,
-  defaultCoveragePeriodsFilters,
   type CoveragePeriodsFiltersForm,
 } from '~/utils/schemas/coveragePeriodsSchema'
+import { useFiltersStore } from '~/stores/filtersStore'
 
 const CoveragePeriods: React.FC = () => {
   const [isOffcanvasOpen, setIsOffcanvasOpen] = useState(false)
 
+  const { activeFilters, getDefaultFilter, setActiveFilters, setCurrentStep } =
+    useFiltersStore()
+
   const methods = useForm<CoveragePeriodsFiltersForm>({
     resolver: zodResolver(coveragePeriodsFiltersSchema),
-    defaultValues: defaultCoveragePeriodsFilters,
+    defaultValues: activeFilters,
   })
 
-  const onSubmit = (data: CoveragePeriodsFiltersForm) => {
-    console.log('Filters applied:', data)
-    setIsOffcanvasOpen(false)
+  // Apply default filter on mount
+  useEffect(() => {
+    const defaultFilter = getDefaultFilter()
+    if (defaultFilter) {
+      setActiveFilters(defaultFilter.filters)
+      methods.reset(defaultFilter.filters)
+    }
+  }, [getDefaultFilter, setActiveFilters, methods])
+
+  // Sync form with active filters
+  useEffect(() => {
+    methods.reset(activeFilters)
+  }, [activeFilters, methods])
+
+  const handleOpenOffcanvas = () => {
+    setCurrentStep('filters')
+    setIsOffcanvasOpen(true)
   }
 
-  const handleReset = () => {
-    methods.reset(defaultCoveragePeriodsFilters)
+  const handleCloseOffcanvas = () => {
+    setIsOffcanvasOpen(false)
   }
 
   return (
     <div className="bg-white rounded-md h-full flex flex-col">
       <CoveragePeriodsFilterOffcanvas
         isOpen={isOffcanvasOpen}
-        onClose={() => setIsOffcanvasOpen(false)}
+        onClose={handleCloseOffcanvas}
         methods={methods}
-        onSubmit={onSubmit}
-        onReset={handleReset}
       />
 
       <div className="p-4 pt-6 border-b border-gray-300">
@@ -60,7 +75,7 @@ const CoveragePeriods: React.FC = () => {
           </div>
         </div>
         <div className="flex items-center gap-2 mt-4">
-          <Button variant="outline" onClick={() => setIsOffcanvasOpen(true)}>
+          <Button variant="outline" onClick={handleOpenOffcanvas}>
             <Filter size={16} />
             Filter
           </Button>

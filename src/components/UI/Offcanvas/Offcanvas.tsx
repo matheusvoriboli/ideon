@@ -56,7 +56,7 @@ const Offcanvas: React.FC<OffcanvasProps> = ({ isOpen, onClose, children }) => {
             <X size={24} strokeWidth={1.5} />
           </Button>
         </div>
-        <div className="flex-1 p-6 relative">{children}</div>
+        <div className="flex-1 p-6 relative flex flex-col">{children}</div>
       </div>
     </div>
   )
