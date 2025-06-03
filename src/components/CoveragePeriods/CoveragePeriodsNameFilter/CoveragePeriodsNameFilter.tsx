@@ -1,19 +1,31 @@
 import { useState } from 'react'
 import { Button, Input, Checkbox } from '~/index'
 import { useFiltersStore } from '~/stores/filtersStore'
+import { UseFormReturn } from 'react-hook-form'
+import { CoveragePeriodsFiltersForm } from '~/utils'
 
-const CoveragePeriodsNameFilter: React.FC = () => {
+const CoveragePeriodsNameFilter: React.FC<{
+  methods: UseFormReturn<CoveragePeriodsFiltersForm>
+}> = ({ methods }) => {
   const [filterName, setFilterName] = useState('')
   const [isDefault, setIsDefault] = useState(false)
 
-  const { filterToSave, addSavedFilter, cancelSavingFilter, setCurrentStep } =
-    useFiltersStore()
+  const {
+    filterToSave,
+    addSavedFilter,
+    cancelSavingFilter,
+    setCurrentStep,
+    resetActiveFilters,
+  } = useFiltersStore()
 
   const handleSave = () => {
     if (filterName.trim() && filterToSave) {
       addSavedFilter(filterName.trim(), filterToSave, isDefault)
+      resetActiveFilters()
+      methods.reset()
       setFilterName('')
       setIsDefault(false)
+      setCurrentStep('saved-filters')
     }
   }
 
@@ -32,13 +44,6 @@ const CoveragePeriodsNameFilter: React.FC = () => {
   return (
     <div className="h-full flex flex-col">
       <div className="flex-1 space-y-4">
-        {/* <div>
-          <h3 className="text-lg font-semibold mb-4">Save Filter</h3>
-          <p className="text-sm text-gray-600 mb-4">
-            Give your filter a name to save it for future use.
-          </p>
-        </div> */}
-
         <div>
           <Input
             label="Filter Name"

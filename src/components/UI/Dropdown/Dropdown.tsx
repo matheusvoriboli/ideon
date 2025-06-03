@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { ChevronDown, Search, Check } from 'lucide-react'
-import Tag from '../Tag/Tag'
-import { Input } from '~/components'
+import { Input, Tag } from '~/components'
 
 interface DropdownOption {
   value: string | number

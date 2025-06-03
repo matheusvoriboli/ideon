@@ -4,7 +4,7 @@ import {
   type SavedFilter,
   type CoveragePeriodsFiltersForm,
   defaultCoveragePeriodsFilters,
-} from '../utils/schemas/coveragePeriodsSchema'
+} from '~/utils'
 
 interface FiltersState {
   savedFilters: SavedFilter[]

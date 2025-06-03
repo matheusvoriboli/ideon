@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { DistributionFormat } from '../enums'
+import { DistributionFormat } from '~/utils'
 
 const dateFilterSchema = z.object({
   date: z.string(),
@@ -12,7 +12,7 @@ export const coveragePeriodsFiltersSchema = z.object({
   coverageStartDate: dateFilterSchema,
   coverageEndDate: dateFilterSchema,
   setupCompletion: dateFilterSchema,
-  distributionFormat: z.nativeEnum(DistributionFormat),
+  distributionFormat: z.nativeEnum(DistributionFormat).optional(),
   carrier: z.string(),
   state: z.string(),
 })
@@ -36,7 +36,7 @@ export const defaultCoveragePeriodsFilters: CoveragePeriodsFiltersForm = {
   coverageStartDate: { date: '', relative: undefined },
   coverageEndDate: { date: '', relative: undefined },
   setupCompletion: { date: '', relative: undefined },
-  distributionFormat: DistributionFormat.Edi,
+  distributionFormat: undefined,
   carrier: '',
   state: '',
 }

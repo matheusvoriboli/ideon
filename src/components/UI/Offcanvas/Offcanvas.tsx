@@ -41,7 +41,7 @@ const Offcanvas: React.FC<OffcanvasProps> = ({ isOpen, onClose, children }) => {
       onClick={handleBackdropClick}
     >
       <div
-        className={`bg-white h-full min-w-md max-w-[80vw] shadow-xl flex flex-col transform transition-transform duration-300 ease-in-out ${
+        className={`bg-white h-full min-w-xl max-w-[80vw] shadow-xl flex flex-col transform transition-transform duration-300 ease-in-out ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >

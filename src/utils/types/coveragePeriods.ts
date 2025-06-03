@@ -1,4 +1,4 @@
-import type { DistributionFormat } from '../enums'
+import type { DistributionFormat } from '~/utils'
 
 export type DateFilter = {
   date: string

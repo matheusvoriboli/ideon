@@ -1,9 +1,17 @@
 import { Copy } from 'lucide-react'
+import { useEffect, useMemo } from 'react'
 import { Pagination, Table } from '~/components'
-import { useTable } from '~/utils'
-import { mockData } from '~/utils'
+import { useFiltersStore } from '~/stores/filtersStore'
+import { useTable, mockData, filterCoveragePeriodsData } from '~/utils'
 
 const CoveragePeriodsTable = () => {
+  const { activeFilters } = useFiltersStore()
+
+  // Filter data based on activeFilters using the helper function
+  const filteredData = useMemo(() => {
+    return filterCoveragePeriodsData(mockData, activeFilters)
+  }, [activeFilters])
+
   const {
     currentPage,
     itemsPerPage,
@@ -13,10 +21,15 @@ const CoveragePeriodsTable = () => {
     handlePageChange,
     handleItemsPerPageChange,
   } = useTable({
-    data: mockData,
+    data: filteredData,
     searchFields: ['organizationName', 'carrier', 'account', 'uuid'],
     initialItemsPerPage: 10,
   })
+
+  useEffect(() => {
+    console.log('Active Filters:', activeFilters)
+    console.log('Filtered Data Count:', filteredData.length)
+  }, [activeFilters, filteredData])
 
   return (
     <div className="flex flex-col h-full">
@@ -56,8 +69,6 @@ const CoveragePeriodsTable = () => {
           </Table.Body>
         </Table>
       </div>
-
-      {/* Pagination section - fixed */}
       <div className="pt-4 bg-white">
         <Pagination
           currentPage={currentPage}

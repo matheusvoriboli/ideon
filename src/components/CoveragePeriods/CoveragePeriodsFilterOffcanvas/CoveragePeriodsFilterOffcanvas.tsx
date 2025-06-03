@@ -1,10 +1,12 @@
 import { UseFormReturn } from 'react-hook-form'
 import { Offcanvas, Tabs } from '~/index'
 import { type CoveragePeriodsFiltersForm } from '~/utils'
-import { useFiltersStore } from '~/stores/filtersStore'
-import CoveragePeriodsCreateFilter from '../CoveragePeriodsCreateFilter/CoveragePeriodsCreateFilter'
-import CoveragePeriodsSavedFilter from '../CoveragePeriodsSavedFilter/CoveragePeriodsSavedFilter'
-import CoveragePeriodsNameFilter from '../CoveragePeriodsNameFilter/CoveragePeriodsNameFilter'
+import { useFiltersStore } from '~/stores'
+import {
+  CoveragePeriodsCreateFilter,
+  CoveragePeriodsSavedFilter,
+  CoveragePeriodsNameFilter,
+} from '~/components'
 
 const CoveragePeriodsFilterOffcanvas = ({
   isOpen,
@@ -24,9 +26,20 @@ const CoveragePeriodsFilterOffcanvas = ({
       case 'saved-filters':
         return <CoveragePeriodsSavedFilter />
       case 'name-filter':
-        return <CoveragePeriodsNameFilter />
+        return <CoveragePeriodsNameFilter methods={methods} />
       default:
         return <CoveragePeriodsCreateFilter methods={methods} />
+    }
+  }
+
+  const getDefaultTabId = () => {
+    switch (currentStep) {
+      case 'filters':
+        return 'filter'
+      case 'saved-filters':
+        return 'saved-filters'
+      default:
+        return 'filter'
     }
   }
 
@@ -35,10 +48,12 @@ const CoveragePeriodsFilterOffcanvas = ({
       {currentStep !== 'name-filter' && (
         <div className="mb-6">
           <Tabs
+            key={currentStep}
             tabs={[
               { id: 'filter', label: 'Filter' },
               { id: 'saved-filters', label: 'Saved Filters' },
             ]}
+            defaultTab={getDefaultTabId()}
             onChange={tabId => {
               setCurrentStep(tabId as 'filters' | 'saved-filters')
             }}
