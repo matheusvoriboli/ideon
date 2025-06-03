@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { ChevronDown, X, Search } from 'lucide-react'
+import { ChevronDown, Search, Check } from 'lucide-react'
+import Tag from '../Tag/Tag'
+import { Input } from '~/components'
 
 interface DropdownOption {
   value: string | number
@@ -22,12 +24,12 @@ const Dropdown: React.FC<DropdownProps> = ({
   value,
   options = [],
   onChange,
-  placeholder = 'Select options...',
+  placeholder,
   label,
   disabled = false,
   className = '',
-  searchable = true,
-  multiple = true,
+  searchable = false,
+  multiple = false,
 }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
@@ -121,50 +123,51 @@ const Dropdown: React.FC<DropdownProps> = ({
 
   return (
     <div className={`flex flex-col gap-2 ${className}`} ref={dropdownRef}>
-      {label && (
-        <label className="text-sm font-medium text-gray-700">{label}</label>
-      )}
+      {label && <label className="text-sm font-semibold">{label}</label>}
 
       <div className="relative">
         {/* Main dropdown button */}
         <div
           onClick={() => !disabled && setIsOpen(!isOpen)}
           className={`
-            w-full min-h-[40px] px-3 py-2 bg-white border border-gray-300 rounded-lg cursor-pointer
+            w-full h-[40px] px-3 py-2 bg-white border border-gray-300 rounded-lg cursor-pointer
             flex items-center justify-between gap-2
-            ${disabled ? 'bg-gray-50 cursor-not-allowed' : 'hover:border-gray-400'}
+            ${disabled && 'bg-gray-50 cursor-not-allowed'}
             ${isOpen ? 'border-blue-500 ring-1 ring-blue-200' : ''}
           `}
         >
-          <div className="flex-1 flex flex-wrap gap-1">
+          <div className="flex-1 flex items-center gap-1 overflow-hidden">
             {multiple ? (
               // Multiple selection display
               selectedOptions.length === 0 ? (
                 <span className="text-gray-500 text-sm">{placeholder}</span>
               ) : (
-                selectedOptions.map(option => (
-                  <span
-                    key={option.value}
-                    className="inline-flex items-center gap-1 px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-md"
-                  >
-                    {option.label}
-                    {!disabled && (
-                      <button
-                        onClick={e => {
-                          e.stopPropagation()
-                          handleRemoveTag(option.value)
-                        }}
-                        className="hover:text-blue-600"
+                <>
+                  <div className="flex items-center gap-1 overflow-hidden">
+                    {selectedOptions.slice(0, 2).map(option => (
+                      <Tag
+                        key={option.value}
+                        onClose={
+                          !disabled
+                            ? () => handleRemoveTag(option.value)
+                            : undefined
+                        }
+                        disabled={disabled}
                       >
-                        <X size={12} />
-                      </button>
-                    )}
-                  </span>
-                ))
+                        {option.label}
+                      </Tag>
+                    ))}
+                  </div>
+                  {selectedOptions.length > 2 && (
+                    <span className="text-gray-500 text-xs ml-1 whitespace-nowrap">
+                      +{selectedOptions.length - 2} more
+                    </span>
+                  )}
+                </>
               )
             ) : // Single selection display
             singleSelectedOption ? (
-              <span className="text-gray-900 text-sm">
+              <span className="text-gray-900 text-sm truncate">
                 {singleSelectedOption.label}
               </span>
             ) : (
@@ -187,21 +190,13 @@ const Dropdown: React.FC<DropdownProps> = ({
           `}
           >
             {searchable && (
-              <div className="p-2 border-b border-gray-200">
-                <div className="relative">
-                  <Search
-                    size={16}
-                    className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-                  />
-                  <input
-                    type="text"
-                    placeholder="Search..."
-                    value={searchTerm}
-                    onChange={e => setSearchTerm(e.target.value)}
-                    className="w-full pl-9 pr-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-                    onClick={e => e.stopPropagation()}
-                  />
-                </div>
+              <div className="p-2">
+                <Input
+                  placeholder="Search..."
+                  value={searchTerm}
+                  onChange={value => setSearchTerm(value)}
+                  icon={<Search size={16} />}
+                />
               </div>
             )}
 
@@ -218,28 +213,36 @@ const Dropdown: React.FC<DropdownProps> = ({
                   return (
                     <div
                       key={option.value}
-                      onClick={() => handleSelect(option.value)}
+                      onClick={
+                        multiple ? undefined : () => handleSelect(option.value)
+                      }
                       className={`
-                        px-3 py-2 text-sm cursor-pointer flex items-center gap-2
-                        hover:bg-gray-50
-                        ${isSelected ? 'bg-blue-50 text-blue-700' : 'text-gray-900'}
+                        px-3 py-2 text-sm flex items-center gap-2
+                        ${multiple ? '' : 'cursor-pointer hover:bg-gray-50'}
+                        ${isSelected && !multiple ? 'bg-ideon-light text-ideon-primary-300 font-bold' : 'text-gray-900'}
                       `}
                     >
-                      {multiple && (
-                        // Checkbox for multiple selection
+                      {multiple ? (
+                        // Visual checkbox for multiple selection
                         <div
-                          className={`
-                            w-4 h-4 border-2 rounded flex items-center justify-center
-                            ${isSelected ? 'bg-blue-600 border-blue-600' : 'border-gray-300'}
-                          `}
+                          onClick={() => handleSelect(option.value)}
+                          className="cursor-pointer hover:bg-gray-50 rounded flex items-center gap-2 flex-1 -mx-3 px-3 py-1"
                         >
-                          {isSelected && (
-                            <div className="w-2 h-2 bg-white rounded-sm" />
-                          )}
+                          <div
+                            className={`
+                              w-6 h-6 border-2 rounded flex items-center justify-center
+                              ${isSelected ? 'bg-ideon-primary-200 border-ideon-primary-200' : 'border-gray-300'}
+                            `}
+                          >
+                            {isSelected && (
+                              <Check size={14} className="text-white" />
+                            )}
+                          </div>
+                          {option.label}
                         </div>
+                      ) : (
+                        option.label
                       )}
-
-                      {option.label}
                     </div>
                   )
                 })

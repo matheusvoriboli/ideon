@@ -17,7 +17,7 @@ const CoveragePeriods: React.FC = () => {
         onClose={() => setIsOffcanvasOpen(false)}
       />
 
-      <div className="p-4 pt-6 border-b border-gray-200">
+      <div className="p-4 pt-6 border-b border-gray-300">
         <div className="flex justify-between items-center">
           <h1 className="text-2xl font-bold">Coverage Periods</h1>
           <div className="flex items-center gap-2">

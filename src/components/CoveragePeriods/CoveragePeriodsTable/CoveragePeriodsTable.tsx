@@ -58,7 +58,7 @@ const CoveragePeriodsTable = () => {
       </div>
 
       {/* Pagination section - fixed */}
-      <div className="pt-4 border-t border-gray-200 bg-white">
+      <div className="pt-4 bg-white">
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}

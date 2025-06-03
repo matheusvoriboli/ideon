@@ -37,7 +37,7 @@ const Table: React.FC<TableProps> & {
   return (
     <div className="overflow-x-auto">
       <table
-        className={`min-w-full bg-white border border-gray-200 rounded-lg ${className}`}
+        className={`min-w-full bg-white border border-gray-300 rounded-lg ${className}`}
       >
         {children}
       </table>
@@ -65,7 +65,7 @@ const TableRow: React.FC<TableRowProps> = ({
   className = '',
   isHeader = false,
 }) => {
-  const baseClasses = isHeader ? 'border-b border-gray-200' : ''
+  const baseClasses = isHeader ? 'border-b border-gray-300' : ''
 
   return <tr className={`${baseClasses} ${className}`}>{children}</tr>
 }

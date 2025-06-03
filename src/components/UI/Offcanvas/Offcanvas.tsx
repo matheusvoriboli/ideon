@@ -45,7 +45,7 @@ const Offcanvas: React.FC<OffcanvasProps> = ({ isOpen, onClose, children }) => {
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
-        <div className="flex justify-between items-center p-6 pb-2 border-gray-200">
+        <div className="flex justify-between items-center p-6 pb-2 border-gray-300">
           <h3 className="text-lg font-semibold">Select Filters</h3>
           <Button
             onClick={onClose}
@@ -56,7 +56,7 @@ const Offcanvas: React.FC<OffcanvasProps> = ({ isOpen, onClose, children }) => {
             <X size={24} strokeWidth={1.5} />
           </Button>
         </div>
-        <div className="flex-1 p-6">{children}</div>
+        <div className="flex-1 p-6 relative">{children}</div>
       </div>
     </div>
   )

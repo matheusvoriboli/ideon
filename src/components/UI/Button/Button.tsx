@@ -4,6 +4,7 @@ type ButtonProps = {
   variant?: 'primary' | 'outline'
   className?: string
   disabled?: boolean
+  size?: 'sm' | 'md' | 'lg'
 }
 
 const Button = ({
@@ -12,13 +13,18 @@ const Button = ({
   variant = 'primary',
   className,
   disabled,
+  size = 'md',
 }: ButtonProps) => {
   return (
     <button
-      className={`flex items-center justify-center p-2 rounded-lg gap-2 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-gray-100 ${className} ${
+      className={`flex items-center justify-center rounded-lg gap-2 cursor-pointer text-nowrap disabled:cursor-not-allowed hover:opacity-80 hover:bg-gray-100 hover:transition-all duration-300 disabled:opacity-50 disabled:bg-gray-100 ${className} 
+      ${size === 'sm' && 'p-2 text-sm'}
+      ${size === 'md' && 'p-2.5 text-sm'}
+      ${size === 'lg' && 'p-3 text-base'}
+      } ${
         variant === 'primary'
           ? 'bg-ideon-primary-300 text-white'
-          : 'bg-transparent border-gray-200 border'
+          : 'bg-transparent border-gray-300 border'
       }`}
       onClick={onClick}
       disabled={disabled}
