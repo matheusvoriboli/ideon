@@ -58,7 +58,7 @@ const RadioButton: React.FC<RadioButtonProps> = ({
             w-6 h-6 border-2 rounded-full flex items-center justify-center cursor-pointer
             peer-checked:bg-ideon-primary-200 peer-checked:border-ideon-primary-200
             peer-focus:ring-2 peer-focus:ring-ideon-primary-200 peer-focus:ring-offset-1
-            ${!checked && 'border-gray-300'}
+            ${!checked && 'border-ideon-primary-500'}
             ${disabled && 'opacity-50 cursor-not-allowed'}
             ${className}
           `}

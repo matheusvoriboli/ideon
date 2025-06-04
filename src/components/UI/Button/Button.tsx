@@ -1,6 +1,6 @@
 type ButtonProps = {
   children: React.ReactNode
-  onClick: () => void
+  onClick: (e?: React.MouseEvent<HTMLButtonElement>) => void
   variant?: 'primary' | 'outline'
   className?: string
   disabled?: boolean
@@ -26,7 +26,7 @@ const Button = ({
       } ${
         variant === 'primary'
           ? 'bg-ideon-primary-300 text-white'
-          : 'bg-transparent border-gray-300 border'
+          : 'bg-transparent border-ideon-primary-500 border'
       }`}
       onClick={onClick}
       disabled={disabled}

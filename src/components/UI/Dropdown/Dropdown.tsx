@@ -129,7 +129,7 @@ const Dropdown: React.FC<DropdownProps> = ({
         <div
           onClick={() => !disabled && setIsOpen(!isOpen)}
           className={`
-            w-full h-[40px] px-3 py-2 bg-white border border-gray-300 rounded-lg cursor-pointer
+            w-full h-[40px] px-3 py-2 bg-white border border-ideon-primary-500 rounded-lg cursor-pointer
             flex items-center justify-between gap-2
             ${disabled && 'bg-gray-50 cursor-not-allowed'}
             ${isOpen ? 'border-blue-500 ring-1 ring-blue-200' : ''}
@@ -184,7 +184,7 @@ const Dropdown: React.FC<DropdownProps> = ({
         {isOpen && !disabled && (
           <div
             className={`
-            absolute left-0 right-0 bg-white border border-gray-300 rounded-lg shadow-lg z-50 max-h-60 overflow-hidden
+            absolute left-0 right-0 bg-white border border-ideon-primary-500 rounded-lg shadow-lg z-50 max-h-60 overflow-hidden
             ${openUpward ? 'bottom-full mb-1' : 'top-full mt-1'}
           `}
           >
@@ -230,7 +230,7 @@ const Dropdown: React.FC<DropdownProps> = ({
                           <div
                             className={`
                               w-6 h-6 border-2 rounded flex items-center justify-center
-                              ${isSelected ? 'bg-ideon-primary-200 border-ideon-primary-200' : 'border-gray-300'}
+                              ${isSelected ? 'bg-ideon-primary-200 border-ideon-primary-200' : 'border-ideon-primary-500'}
                             `}
                           >
                             {isSelected && (

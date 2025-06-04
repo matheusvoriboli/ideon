@@ -3,3 +3,4 @@ export { default as CoveragePeriodsFilterOffcanvas } from './CoveragePeriodsFilt
 export { default as CoveragePeriodsCreateFilter } from './CoveragePeriodsCreateFilter/CoveragePeriodsCreateFilter'
 export { default as CoveragePeriodsSavedFilter } from './CoveragePeriodsSavedFilter/CoveragePeriodsSavedFilter'
 export { default as CoveragePeriodsNameFilter } from './CoveragePeriodsNameFilter/CoveragePeriodsNameFilter'
+export { default as CoveragePeriodsActiveTags } from './CoveragePeriodsActiveTags/CoveragePeriodsActiveTags'

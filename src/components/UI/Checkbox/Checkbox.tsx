@@ -43,7 +43,7 @@ const Checkbox: React.FC<CheckboxProps> = ({
         htmlFor={checkboxId}
         className={`
           w-6 h-6 border-2 rounded flex items-center justify-center cursor-pointer
-          ${checked ? 'bg-ideon-primary-200 border-ideon-primary-200' : 'border-gray-300'}
+          ${checked ? 'bg-ideon-primary-200 border-ideon-primary-200' : 'border-ideon-primary-500'}
           ${disabled && 'opacity-50 cursor-not-allowed'}
           focus-within:ring-2 focus-within:ring-ideon-primary-200 focus-within:ring-opacity-50
           ${className}

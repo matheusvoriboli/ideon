@@ -14,7 +14,7 @@ interface CoveragePeriodsCreateFilterProps {
 const CoveragePeriodsCreateFilter: React.FC<
   CoveragePeriodsCreateFilterProps
 > = ({ methods }) => {
-  const { register, watch, setValue, handleSubmit } = methods
+  const { register, watch, setValue, handleSubmit, reset } = methods
   const { setActiveFilters, resetActiveFilters, startSavingFilter } =
     useFiltersStore()
 
@@ -28,7 +28,7 @@ const CoveragePeriodsCreateFilter: React.FC<
   }
 
   const handleReset = () => {
-    methods.reset()
+    reset()
     resetActiveFilters()
   }
 
@@ -105,7 +105,7 @@ const CoveragePeriodsCreateFilter: React.FC<
           <input
             type="date"
             {...register('coverageStartDate.date')}
-            className="w-full p-2 rounded-lg border border-gray-300"
+            className="w-full p-2 rounded-lg border border-ideon-primary-500"
           />
         </div>
 
@@ -125,7 +125,7 @@ const CoveragePeriodsCreateFilter: React.FC<
           <input
             type="date"
             {...register('coverageEndDate.date')}
-            className="w-full p-2 rounded-lg border border-gray-300"
+            className="w-full p-2 rounded-lg border border-ideon-primary-500"
           />
         </div>
 
@@ -145,7 +145,7 @@ const CoveragePeriodsCreateFilter: React.FC<
           <input
             type="date"
             {...register('setupCompletion.date')}
-            className="w-full p-2 rounded-lg border border-gray-300"
+            className="w-full p-2 rounded-lg border border-ideon-primary-500"
           />
         </div>
 
@@ -175,7 +175,7 @@ const CoveragePeriodsCreateFilter: React.FC<
         </div>
       </div>
 
-      <div className="flex gap-2 pt-4 mt-auto absolute bottom-0 left-0 right-0 p-6 border-t border-gray-300">
+      <div className="flex gap-2 pt-4 mt-auto absolute bottom-0 left-0 right-0 p-6 border-t border-ideon-primary-500">
         <Button
           variant="outline"
           className="flex-1"

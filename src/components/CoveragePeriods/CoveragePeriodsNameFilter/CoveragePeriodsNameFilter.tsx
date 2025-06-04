@@ -60,7 +60,7 @@ const CoveragePeriodsNameFilter: React.FC<{
         </div>
       </div>
 
-      <div className="flex gap-2 pt-4 border-t border-gray-300">
+      <div className="flex gap-2 pt-4 border-t border-ideon-primary-500">
         <Button variant="outline" className="flex-1" onClick={handleCancel}>
           Cancel
         </Button>

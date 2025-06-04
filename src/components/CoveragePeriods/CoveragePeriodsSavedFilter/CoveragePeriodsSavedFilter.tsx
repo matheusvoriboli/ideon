@@ -19,6 +19,8 @@ const CoveragePeriodsSavedFilter: React.FC = () => {
   const handleToggleDefault = (id: string, currentIsDefault: boolean) => {
     if (!currentIsDefault) {
       setDefaultFilter(id)
+    } else {
+      setDefaultFilter('')
     }
   }
 
@@ -46,7 +48,8 @@ const CoveragePeriodsSavedFilter: React.FC = () => {
                   <Button
                     variant="outline"
                     size="sm"
-                    onClick={() => {
+                    onClick={e => {
+                      e?.stopPropagation()
                       handleToggleDefault(filter.id, filter.isDefault)
                     }}
                   >
@@ -55,7 +58,8 @@ const CoveragePeriodsSavedFilter: React.FC = () => {
                   <Button
                     variant="outline"
                     size="sm"
-                    onClick={() => {
+                    onClick={e => {
+                      e?.stopPropagation()
                       handleDeleteFilter(filter.id)
                     }}
                     className="text-red-400"

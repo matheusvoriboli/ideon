@@ -25,6 +25,7 @@ interface FiltersState {
 
   setActiveFilters: (filters: CoveragePeriodsFiltersForm) => void
   resetActiveFilters: () => void
+  removeSpecificFilter: (filterKey: keyof CoveragePeriodsFiltersForm) => void
 
   setCurrentStep: (step: 'filters' | 'saved-filters' | 'name-filter') => void
   startSavingFilter: (filters: CoveragePeriodsFiltersForm) => void
@@ -84,6 +85,18 @@ export const useFiltersStore = create<FiltersState>()(
 
       resetActiveFilters: () =>
         set({ activeFilters: defaultCoveragePeriodsFilters }),
+
+      removeSpecificFilter: filterKey => {
+        set(state => {
+          // Simplesmente reseta o filtro específico para o valor padrão
+          const newFilters = {
+            ...state.activeFilters,
+            [filterKey]: defaultCoveragePeriodsFilters[filterKey],
+          }
+
+          return { activeFilters: newFilters }
+        })
+      },
 
       setCurrentStep: step => set({ currentStep: step }),
 

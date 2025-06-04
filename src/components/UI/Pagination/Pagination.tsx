@@ -57,7 +57,7 @@ const Pagination: React.FC<PaginationProps> = ({
   const visiblePages = totalPages > 1 ? getVisiblePages() : [1]
 
   return (
-    <div className="flex items-center justify-end gap-4 px-4 py-3 bg-white border-gray-300">
+    <div className="flex items-center justify-end gap-4 px-4 py-3 bg-white border-ideon-primary-500">
       <div className="flex items-center gap-4">
         <div className="text-sm text-gray-400">
           Showing {startItem} to {endItem} of {totalItems} results

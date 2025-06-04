@@ -7,6 +7,7 @@ import {
   Input,
   CoveragePeriodsFilterOffcanvas,
   CoveragePeriodsTable,
+  CoveragePeriodsActiveTags,
 } from '~/index'
 import {
   coveragePeriodsFiltersSchema,
@@ -19,7 +20,12 @@ const CoveragePeriods: React.FC = () => {
   const [isOffcanvasOpen, setIsOffcanvasOpen] = useState(false)
   const isInitialMount = useRef(true)
 
-  const { activeFilters, setCurrentStep } = useFiltersStore()
+  const {
+    activeFilters,
+    setCurrentStep,
+    removeSpecificFilter,
+    resetActiveFilters,
+  } = useFiltersStore()
 
   const methods = useForm<CoveragePeriodsFiltersForm>({
     resolver: zodResolver(coveragePeriodsFiltersSchema),
@@ -49,6 +55,15 @@ const CoveragePeriods: React.FC = () => {
     setIsOffcanvasOpen(false)
   }
 
+  const handleRemoveFilter = (filterKey: keyof CoveragePeriodsFiltersForm) => {
+    removeSpecificFilter(filterKey)
+  }
+
+  const handleResetFilters = () => {
+    methods.reset()
+    resetActiveFilters()
+  }
+
   return (
     <div className="bg-white rounded-md h-full flex flex-col">
       <CoveragePeriodsFilterOffcanvas
@@ -57,12 +72,12 @@ const CoveragePeriods: React.FC = () => {
         methods={methods}
       />
 
-      <div className="p-4 pt-6 border-b border-gray-300">
+      <div className="p-4 pt-6">
         <div className="flex justify-between items-center">
           <h1 className="text-2xl font-bold">Coverage Periods</h1>
           <div className="flex items-center gap-2">
             <Button variant="outline" onClick={() => {}}>
-              <Settings />
+              <Settings size={20} />
             </Button>
             <Button variant="outline" onClick={() => {}}>
               Export CSV
@@ -80,7 +95,19 @@ const CoveragePeriods: React.FC = () => {
             <Filter size={16} />
             Filter
           </Button>
+          <Button
+            variant="outline"
+            onClick={handleResetFilters}
+            className="border-0 text-ideon-primary-300 font-semibold"
+          >
+            Reset Filters
+          </Button>
         </div>
+
+        <CoveragePeriodsActiveTags
+          activeFilters={activeFilters}
+          onRemoveFilter={handleRemoveFilter}
+        />
       </div>
 
       <div className="flex-1 px-4 py-6 overflow-hidden">
