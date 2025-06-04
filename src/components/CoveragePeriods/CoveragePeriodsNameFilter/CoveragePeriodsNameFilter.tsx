@@ -10,18 +10,12 @@ const CoveragePeriodsNameFilter: React.FC<{
   const [filterName, setFilterName] = useState('')
   const [isDefault, setIsDefault] = useState(false)
 
-  const {
-    filterToSave,
-    addSavedFilter,
-    cancelSavingFilter,
-    setCurrentStep,
-    resetActiveFilters,
-  } = useFiltersStore()
+  const { filterToSave, addSavedFilter, cancelSavingFilter, setCurrentStep } =
+    useFiltersStore()
 
   const handleSave = () => {
     if (filterName.trim() && filterToSave) {
       addSavedFilter(filterName.trim(), filterToSave, isDefault)
-      resetActiveFilters()
       methods.reset()
       setFilterName('')
       setIsDefault(false)

@@ -176,7 +176,12 @@ const CoveragePeriodsCreateFilter: React.FC<
       </div>
 
       <div className="flex gap-2 pt-4 mt-auto absolute bottom-0 left-0 right-0 p-6 border-t border-gray-300">
-        <Button variant="outline" className="flex-1" onClick={handleReset}>
+        <Button
+          variant="outline"
+          className="flex-1"
+          onClick={handleReset}
+          type="button"
+        >
           Reset
         </Button>
         <Button type="submit" className="flex-1" onClick={() => {}}>

@@ -1,5 +1,5 @@
 import { Copy } from 'lucide-react'
-import { useEffect, useMemo } from 'react'
+import { useMemo } from 'react'
 import { Pagination, Table } from '~/components'
 import { useFiltersStore } from '~/stores/filtersStore'
 import { useTable, mockData, filterCoveragePeriodsData } from '~/utils'
@@ -25,11 +25,6 @@ const CoveragePeriodsTable = () => {
     searchFields: ['organizationName', 'carrier', 'account', 'uuid'],
     initialItemsPerPage: 10,
   })
-
-  useEffect(() => {
-    console.log('Active Filters:', activeFilters)
-    console.log('Filtered Data Count:', filteredData.length)
-  }, [activeFilters, filteredData])
 
   return (
     <div className="flex flex-col h-full">

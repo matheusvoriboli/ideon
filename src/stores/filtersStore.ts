@@ -117,8 +117,12 @@ export const useFiltersStore = create<FiltersState>()(
       name: 'filters-storage',
       partialize: state => ({
         savedFilters: state.savedFilters,
-        activeFilters: state.activeFilters,
       }),
+      onRehydrateStorage: () => state => {
+        if (state) {
+          state.activeFilters = defaultCoveragePeriodsFilters
+        }
+      },
     }
   )
 )

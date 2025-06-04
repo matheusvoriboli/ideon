@@ -36,7 +36,7 @@ export const filterCoveragePeriodsData = (
 ) => {
   return data.filter((item: (typeof mockData)[0]) => {
     // Organization filter (multiple selection)
-    if (activeFilters.organization.length > 0) {
+    if (activeFilters?.organization && activeFilters.organization.length > 0) {
       if (!activeFilters.organization.includes(item.organizationName)) {
         return false
       }

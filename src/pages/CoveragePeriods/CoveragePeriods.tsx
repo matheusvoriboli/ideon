@@ -1,5 +1,5 @@
 import { Filter, Search, Settings } from 'lucide-react'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
@@ -11,32 +11,33 @@ import {
 import {
   coveragePeriodsFiltersSchema,
   type CoveragePeriodsFiltersForm,
+  defaultCoveragePeriodsFilters,
 } from '~/utils/schemas/coveragePeriodsSchema'
 import { useFiltersStore } from '~/stores/filtersStore'
 
 const CoveragePeriods: React.FC = () => {
   const [isOffcanvasOpen, setIsOffcanvasOpen] = useState(false)
+  const isInitialMount = useRef(true)
 
-  const { activeFilters, getDefaultFilter, setActiveFilters, setCurrentStep } =
-    useFiltersStore()
+  const { activeFilters, setCurrentStep } = useFiltersStore()
 
   const methods = useForm<CoveragePeriodsFiltersForm>({
     resolver: zodResolver(coveragePeriodsFiltersSchema),
-    defaultValues: activeFilters,
+    defaultValues: defaultCoveragePeriodsFilters,
   })
 
-  // Apply default filter on mount
   useEffect(() => {
-    const defaultFilter = getDefaultFilter()
-    if (defaultFilter) {
-      setActiveFilters(defaultFilter.filters)
-      methods.reset(defaultFilter.filters)
+    if (isInitialMount.current) {
+      isInitialMount.current = false
+      return
     }
-  }, [getDefaultFilter, setActiveFilters, methods])
 
-  // Sync form with active filters
-  useEffect(() => {
-    methods.reset(activeFilters)
+    const isDefaultFilters =
+      JSON.stringify(activeFilters) ===
+      JSON.stringify(defaultCoveragePeriodsFilters)
+    if (!isDefaultFilters) {
+      methods.reset(activeFilters)
+    }
   }, [activeFilters, methods])
 
   const handleOpenOffcanvas = () => {
