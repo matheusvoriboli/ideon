@@ -162,9 +162,8 @@ const Dropdown: React.FC<DropdownProps> = ({
           onKeyDown={handleKeyDown}
           className={`
             w-full h-[40px] px-3 py-2 bg-white border border-ideon-primary-500 rounded-lg cursor-pointer
-            flex items-center justify-between gap-2 focus:outline-none focus:ring-2 focus:ring-ideon-primary-200
+            flex items-center justify-between gap-2 focus:outline-none
             ${disabled && 'bg-gray-50 cursor-not-allowed'}
-            ${isOpen ? 'border-blue-500 ring-1 ring-blue-200' : ''}
           `}
           role="combobox"
           aria-expanded={isOpen}
