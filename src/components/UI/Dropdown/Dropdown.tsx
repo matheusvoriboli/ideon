@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { ChevronDown, X, Search } from 'lucide-react'
+import { ChevronDown, Search, Check } from 'lucide-react'
+import { Input, Tag } from '~/components'
 
 interface DropdownOption {
   value: string | number
@@ -16,23 +17,28 @@ interface DropdownProps {
   className?: string
   searchable?: boolean
   multiple?: boolean
+  'aria-label'?: string
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
   value,
   options = [],
   onChange,
-  placeholder = 'Select options...',
+  placeholder,
   label,
   disabled = false,
   className = '',
-  searchable = true,
-  multiple = true,
+  searchable = false,
+  multiple = false,
+  'aria-label': ariaLabel,
 }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
   const [openUpward, setOpenUpward] = useState(false)
+  const [focusedIndex, setFocusedIndex] = useState(-1)
   const dropdownRef = useRef<HTMLDivElement>(null)
+  const buttonRef = useRef<HTMLDivElement>(null)
+  const listRef = useRef<HTMLDivElement>(null)
 
   // Normalize value to array for internal processing
   const safeValue = multiple
@@ -54,6 +60,8 @@ const Dropdown: React.FC<DropdownProps> = ({
   const selectedOptions =
     options?.filter(option => safeValue.includes(option.value)) || []
 
+  const singleSelectedOption = !multiple ? selectedOptions[0] : null
+
   // Calculate dropdown position when opening
   useEffect(() => {
     if (isOpen && dropdownRef.current) {
@@ -68,103 +76,135 @@ const Dropdown: React.FC<DropdownProps> = ({
     }
   }, [isOpen])
 
+  // Reset focus when dropdown closes
+  useEffect(() => {
+    if (!isOpen) {
+      setFocusedIndex(-1)
+    }
+  }, [isOpen])
+
   const handleSelect = (optionValue: string | number) => {
     if (multiple) {
-      // Multiple selection logic
-      const stringOptionValue = String(optionValue)
-      const stringValues = safeValue.map(v => String(v))
-
-      if (stringValues.includes(stringOptionValue)) {
-        // Remove if already selected
-        const newValue = safeValue.filter(v => String(v) !== stringOptionValue)
-        onChange(newValue as (string | number)[])
+      const currentValues = Array.isArray(value) ? value : value ? [value] : []
+      if (currentValues.includes(optionValue)) {
+        onChange(currentValues.filter(v => v !== optionValue))
       } else {
-        // Add if not selected
-        const newValue = [...safeValue, optionValue]
-        onChange(newValue as (string | number)[])
+        onChange([...currentValues, optionValue])
       }
     } else {
-      // Single selection logic
       onChange(optionValue)
-      setIsOpen(false) // Close dropdown after selection
-      setSearchTerm('') // Clear search
+      setIsOpen(false)
     }
   }
 
   const handleRemoveTag = (optionValue: string | number) => {
-    if (multiple) {
-      const newValue = safeValue.filter(v => v !== optionValue)
-      onChange(newValue as (string | number)[])
-    } else {
-      onChange('')
-    }
+    const currentValues = Array.isArray(value) ? value : value ? [value] : []
+    onChange(currentValues.filter(v => v !== optionValue))
   }
 
-  const handleClickOutside = (event: MouseEvent) => {
-    if (
-      dropdownRef.current &&
-      !dropdownRef.current.contains(event.target as Node)
-    ) {
-      setIsOpen(false)
-      setSearchTerm('')
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (disabled) return
+
+    switch (e.key) {
+      case 'Enter':
+      case ' ':
+        e.preventDefault()
+        if (!isOpen) {
+          setIsOpen(true)
+        } else if (focusedIndex >= 0 && focusedIndex < filteredOptions.length) {
+          handleSelect(filteredOptions[focusedIndex].value)
+        }
+        break
+      case 'Escape':
+        e.preventDefault()
+        setIsOpen(false)
+        buttonRef.current?.focus()
+        break
+      case 'ArrowDown':
+        e.preventDefault()
+        if (!isOpen) {
+          setIsOpen(true)
+        } else {
+          setFocusedIndex(prev =>
+            prev < filteredOptions.length - 1 ? prev + 1 : 0
+          )
+        }
+        break
+      case 'ArrowUp':
+        e.preventDefault()
+        if (isOpen) {
+          setFocusedIndex(prev =>
+            prev > 0 ? prev - 1 : filteredOptions.length - 1
+          )
+        }
+        break
+      case 'Tab':
+        if (isOpen) {
+          setIsOpen(false)
+        }
+        break
     }
   }
-
-  useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [])
-
-  // For single selection, get the selected option
-  const singleSelectedOption =
-    !multiple && value ? options?.find(option => option.value === value) : null
 
   return (
     <div className={`flex flex-col gap-2 ${className}`} ref={dropdownRef}>
       {label && (
-        <label className="text-sm font-medium text-gray-700">{label}</label>
+        <label className="text-sm font-semibold" id={`${ariaLabel}-label`}>
+          {label}
+        </label>
       )}
 
       <div className="relative">
         {/* Main dropdown button */}
         <div
+          ref={buttonRef}
           onClick={() => !disabled && setIsOpen(!isOpen)}
+          onKeyDown={handleKeyDown}
           className={`
-            w-full min-h-[40px] px-3 py-2 bg-white border border-gray-300 rounded-lg cursor-pointer
-            flex items-center justify-between gap-2
-            ${disabled ? 'bg-gray-50 cursor-not-allowed' : 'hover:border-gray-400'}
+            w-full h-[40px] px-3 py-2 bg-white border border-ideon-primary-500 rounded-lg cursor-pointer
+            flex items-center justify-between gap-2 focus:outline-none focus:ring-2 focus:ring-ideon-primary-200
+            ${disabled && 'bg-gray-50 cursor-not-allowed'}
             ${isOpen ? 'border-blue-500 ring-1 ring-blue-200' : ''}
           `}
+          role="combobox"
+          aria-expanded={isOpen}
+          aria-haspopup="listbox"
+          aria-label={ariaLabel || label}
+          aria-labelledby={label ? `${ariaLabel}-label` : undefined}
+          tabIndex={disabled ? -1 : 0}
+          aria-describedby={`${ariaLabel}-description`}
         >
-          <div className="flex-1 flex flex-wrap gap-1">
+          <div className="flex-1 flex items-center gap-1 overflow-hidden">
             {multiple ? (
               // Multiple selection display
               selectedOptions.length === 0 ? (
                 <span className="text-gray-500 text-sm">{placeholder}</span>
               ) : (
-                selectedOptions.map(option => (
-                  <span
-                    key={option.value}
-                    className="inline-flex items-center gap-1 px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-md"
-                  >
-                    {option.label}
-                    {!disabled && (
-                      <button
-                        onClick={e => {
-                          e.stopPropagation()
-                          handleRemoveTag(option.value)
-                        }}
-                        className="hover:text-blue-600"
+                <>
+                  <div className="flex items-center gap-1 overflow-hidden">
+                    {selectedOptions.slice(0, 2).map(option => (
+                      <Tag
+                        key={option.value}
+                        onClose={
+                          !disabled
+                            ? () => handleRemoveTag(option.value)
+                            : undefined
+                        }
+                        disabled={disabled}
                       >
-                        <X size={12} />
-                      </button>
-                    )}
-                  </span>
-                ))
+                        {option.label}
+                      </Tag>
+                    ))}
+                  </div>
+                  {selectedOptions.length > 2 && (
+                    <span className="text-gray-500 text-xs ml-1 whitespace-nowrap">
+                      +{selectedOptions.length - 2} mais
+                    </span>
+                  )}
+                </>
               )
-            ) : // Single selection display
-            singleSelectedOption ? (
-              <span className="text-gray-900 text-sm">
+            ) : singleSelectedOption ? (
+              <span className="text-gray-900 text-sm truncate">
                 {singleSelectedOption.label}
               </span>
             ) : (
@@ -175,71 +215,84 @@ const Dropdown: React.FC<DropdownProps> = ({
           <ChevronDown
             size={16}
             className={`text-gray-500 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+            aria-hidden="true"
           />
         </div>
 
         {/* Dropdown menu */}
         {isOpen && !disabled && (
           <div
+            ref={listRef}
             className={`
-            absolute left-0 right-0 bg-white border border-gray-300 rounded-lg shadow-lg z-50 max-h-60 overflow-hidden
+            absolute left-0 right-0 bg-white border border-ideon-primary-500 rounded-lg shadow-lg z-50 max-h-60 overflow-hidden
             ${openUpward ? 'bottom-full mb-1' : 'top-full mt-1'}
           `}
+            role="listbox"
+            aria-label={`Options for ${ariaLabel || label}`}
+            aria-multiselectable={multiple}
           >
             {searchable && (
-              <div className="p-2 border-b border-gray-200">
-                <div className="relative">
-                  <Search
-                    size={16}
-                    className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-                  />
-                  <input
-                    type="text"
-                    placeholder="Search..."
-                    value={searchTerm}
-                    onChange={e => setSearchTerm(e.target.value)}
-                    className="w-full pl-9 pr-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-                    onClick={e => e.stopPropagation()}
-                  />
-                </div>
+              <div className="p-2">
+                <Input
+                  placeholder="Search..."
+                  value={searchTerm}
+                  onChange={value => setSearchTerm(value)}
+                  icon={<Search size={16} />}
+                />
               </div>
             )}
 
             <div className="max-h-40 overflow-y-auto">
               {filteredOptions.length === 0 ? (
-                <div className="px-3 py-2 text-sm text-gray-500">
+                <div className="px-3 py-2 text-sm text-gray-500" role="option">
                   No options found
                 </div>
               ) : (
-                filteredOptions.map(option => {
+                filteredOptions.map((option, index) => {
                   const isSelected = safeValue
                     .map(v => String(v))
                     .includes(String(option.value))
+                  const isFocused = index === focusedIndex
+
                   return (
                     <div
                       key={option.value}
-                      onClick={() => handleSelect(option.value)}
+                      onClick={
+                        multiple ? undefined : () => handleSelect(option.value)
+                      }
                       className={`
-                        px-3 py-2 text-sm cursor-pointer flex items-center gap-2
-                        hover:bg-gray-50
-                        ${isSelected ? 'bg-blue-50 text-blue-700' : 'text-gray-900'}
+                        px-3 py-2 text-sm flex items-center gap-2
+                        ${multiple ? '' : 'cursor-pointer hover:bg-gray-50'}
+                        ${isSelected && !multiple ? 'bg-ideon-light text-ideon-primary-300 font-bold' : 'text-gray-900'}
+                        ${isFocused ? 'bg-gray-100' : ''}
                       `}
+                      role="option"
+                      aria-selected={isSelected}
+                      id={`option-${option.value}`}
                     >
-                      {multiple && (
-                        // Checkbox for multiple selection
+                      {multiple ? (
+                        // Visual checkbox for multiple selection
                         <div
-                          className={`
-                            w-4 h-4 border-2 rounded flex items-center justify-center
-                            ${isSelected ? 'bg-blue-600 border-blue-600' : 'border-gray-300'}
-                          `}
+                          onClick={() => handleSelect(option.value)}
+                          className="cursor-pointer hover:bg-gray-50 rounded flex items-center gap-2 flex-1 -mx-3 px-3 py-1"
                         >
-                          {isSelected && (
-                            <div className="w-2 h-2 bg-white rounded-sm" />
-                          )}
+                          <div
+                            className={`
+                              w-6 h-6 border-2 rounded flex items-center justify-center
+                              ${isSelected ? 'bg-ideon-primary-200 border-ideon-primary-200' : 'border-ideon-primary-500'}
+                            `}
+                            role="checkbox"
+                            aria-checked={isSelected}
+                          >
+                            {isSelected && (
+                              <Check size={14} className="text-white" />
+                            )}
+                          </div>
+                          {option.label}
                         </div>
+                      ) : (
+                        option.label
                       )}
-
-                      {option.label}
                     </div>
                   )
                 })
@@ -247,6 +300,12 @@ const Dropdown: React.FC<DropdownProps> = ({
             </div>
           </div>
         )}
+      </div>
+
+      <div id={`${ariaLabel}-description`} className="sr-only">
+        {multiple
+          ? `Multiple selection. Use the arrows to navigate and Enter to select. ${selectedOptions.length} items selected.`
+          : `Use the arrows to navigate and Enter to select. ${singleSelectedOption ? `Selected: ${singleSelectedOption.label}` : 'No item selected'}.`}
       </div>
     </div>
   )

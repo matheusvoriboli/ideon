@@ -1,31 +1,59 @@
+import { forwardRef } from 'react'
+
 type ButtonProps = {
   children: React.ReactNode
-  onClick: () => void
+  onClick: (e?: React.MouseEvent<HTMLButtonElement>) => void
   variant?: 'primary' | 'outline'
   className?: string
   disabled?: boolean
+  size?: 'sm' | 'md' | 'lg'
+  type?: 'button' | 'submit' | 'reset'
+  'aria-label'?: string
+  'aria-describedby'?: string
+  'data-testid'?: string
 }
 
-const Button = ({
-  children,
-  onClick,
-  variant = 'primary',
-  className,
-  disabled,
-}: ButtonProps) => {
-  return (
-    <button
-      className={`flex items-center justify-center p-2 rounded-lg gap-2 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-gray-100 ${className} ${
+const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  (
+    {
+      children,
+      onClick,
+      variant = 'primary',
+      className,
+      disabled,
+      size = 'md',
+      type = 'button',
+      'aria-label': ariaLabel,
+      'aria-describedby': ariaDescribedBy,
+      'data-testid': dataTestId,
+    },
+    ref
+  ) => {
+    return (
+      <button
+        ref={ref}
+        className={`flex items-center justify-center rounded-lg gap-2 cursor-pointer text-nowrap disabled:cursor-not-allowed hover:opacity-80 disabled:opacity-50 disabled:bg-gray-100 focus:ring-2 focus:ring-offset-2 focus:ring-ideon-primary-200 ${className} 
+      ${size === 'sm' && 'p-2 text-sm'}
+      ${size === 'md' && 'p-2.5 text-sm'}
+      ${size === 'lg' && 'p-3 text-base'}
+      } ${
         variant === 'primary'
-          ? 'bg-ideon-primary-300 text-white'
-          : 'bg-transparent border-gray-200 border'
+          ? 'bg-ideon-primary-300 text-white focus:ring-ideon-primary-300'
+          : 'bg-transparent border-ideon-primary-500 border focus:ring-ideon-primary-500'
       }`}
-      onClick={onClick}
-      disabled={disabled}
-    >
-      {children}
-    </button>
-  )
-}
+        onClick={onClick}
+        disabled={disabled}
+        type={type}
+        aria-label={ariaLabel}
+        aria-describedby={ariaDescribedBy}
+        data-testid={dataTestId}
+      >
+        {children}
+      </button>
+    )
+  }
+)
+
+Button.displayName = 'Button'
 
 export default Button

@@ -57,9 +57,12 @@ const Pagination: React.FC<PaginationProps> = ({
   const visiblePages = totalPages > 1 ? getVisiblePages() : [1]
 
   return (
-    <div className="flex items-center justify-end gap-4 px-4 py-3 bg-white border-gray-200">
+    <nav
+      className="flex items-center justify-end gap-4 px-4 py-3 bg-white border-ideon-primary-500"
+      aria-label="Pagination navigation"
+    >
       <div className="flex items-center gap-4">
-        <div className="text-sm text-gray-400">
+        <div className="text-sm text-gray-400" role="status" aria-live="polite">
           Showing {startItem} to {endItem} of {totalItems} results
         </div>
 
@@ -78,37 +81,52 @@ const Pagination: React.FC<PaginationProps> = ({
               className="min-w-[80px]"
               multiple={false}
               searchable={false}
+              aria-label="Items per page"
             />
           </div>
         )}
       </div>
 
-      <div className="flex items-center gap-2">
+      <div
+        className="flex items-center gap-2"
+        role="group"
+        aria-label="Pagination controls"
+      >
         <Button
           onClick={() => onPageChange(currentPage - 1)}
           variant="outline"
           disabled={currentPage === 1}
+          aria-label="Previous page"
         >
-          <ChevronLeft size={16} />
+          <ChevronLeft size={16} aria-hidden="true" />
           Previous
         </Button>
 
-        <div className="flex items-center gap-1">
+        <div
+          className="flex items-center gap-1"
+          role="group"
+          aria-label="Pages"
+        >
           {visiblePages.map((page, index) => (
             <React.Fragment key={index}>
               {page === '...' ? (
-                <span className="px-3 py-1">...</span>
+                <span className="px-3 py-1" aria-hidden="true">
+                  ...
+                </span>
               ) : (
-                <a
+                <button
+                  type="button"
                   onClick={() => onPageChange(page as number)}
-                  className={`px-2 py-1 cursor-pointer text-sm rounded transition-colors ${
+                  className={`px-2 py-1 text-sm rounded transition-colors focus:ring-2 focus:ring-ideon-primary-200 focus:outline-none ${
                     currentPage === page
-                      ? 'text-ideon-primary-300 font-extrabold underline'
-                      : 'text-gray-700'
+                      ? 'text-ideon-primary-300 font-extrabold underline bg-ideon-light'
+                      : 'text-gray-700 hover:bg-gray-100'
                   }`}
+                  aria-label={`Go to page ${page}`}
+                  aria-current={currentPage === page ? 'page' : undefined}
                 >
                   {page}
-                </a>
+                </button>
               )}
             </React.Fragment>
           ))}
@@ -118,12 +136,13 @@ const Pagination: React.FC<PaginationProps> = ({
           variant="outline"
           onClick={() => onPageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
+          aria-label="Next page"
         >
           Next
-          <ChevronRight size={16} />
+          <ChevronRight size={16} aria-hidden="true" />
         </Button>
       </div>
-    </div>
+    </nav>
   )
 }
 
