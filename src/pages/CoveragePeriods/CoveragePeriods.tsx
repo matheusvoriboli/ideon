@@ -15,6 +15,7 @@ import {
   defaultCoveragePeriodsFilters,
 } from '~/utils/schemas/coveragePeriodsSchema'
 import { useFiltersStore } from '~/stores/filtersStore'
+import { notImplemented } from '~/utils'
 
 const CoveragePeriods: React.FC = () => {
   const [isOffcanvasOpen, setIsOffcanvasOpen] = useState(false)
@@ -82,12 +83,16 @@ const CoveragePeriods: React.FC = () => {
             role="toolbar"
             aria-label="Page actions"
           >
-            <Button variant="outline" onClick={() => {}} aria-label="Settings">
+            <Button
+              variant="outline"
+              onClick={() => notImplemented('Settings')}
+              aria-label="Settings"
+            >
               <Settings size={20} aria-hidden="true" />
             </Button>
             <Button
               variant="outline"
-              onClick={() => {}}
+              onClick={() => notImplemented('Export CSV')}
               aria-label="Export data as CSV"
             >
               Export CSV
