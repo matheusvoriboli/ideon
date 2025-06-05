@@ -14,10 +14,19 @@ import {
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { SideMenu, Header } from '~/components'
 import { Routes } from '~/utils/constants'
+import { notImplemented } from '~/utils/helpers/notifications'
 
 const Layout = () => {
   const location = useLocation()
   const navigate = useNavigate()
+
+  const handleDashboardChange = (dashboard: {
+    id: string
+    title: string
+    acronym: string
+  }) => {
+    notImplemented(dashboard.title)
+  }
 
   const sideMenuSections = [
     {
@@ -37,7 +46,7 @@ const Layout = () => {
         {
           label: 'Perspective Groups',
           icon: <Folder strokeWidth={1.5} />,
-          onClick: () => {},
+          onClick: () => notImplemented('Perspective Groups'),
         },
       ],
     },
@@ -47,7 +56,7 @@ const Layout = () => {
         {
           label: 'Pre Coverage Periods',
           icon: <BookOpen strokeWidth={1.5} />,
-          onClick: () => {},
+          onClick: () => notImplemented('Pre Coverage Periods'),
         },
         {
           label: 'Coverage Periods',
@@ -58,12 +67,12 @@ const Layout = () => {
         {
           label: 'Enrollment Tasks',
           icon: <Briefcase strokeWidth={1.5} />,
-          onClick: () => {},
+          onClick: () => notImplemented('Enrollment Tasks'),
         },
         {
           label: 'Customer Tickets',
           icon: <Ticket strokeWidth={1.5} />,
-          onClick: () => {},
+          onClick: () => notImplemented('Customer Tickets'),
         },
       ],
     },
@@ -73,7 +82,7 @@ const Layout = () => {
         {
           label: 'Enrollment Discrepancies',
           icon: <FileSearch strokeWidth={1.5} />,
-          onClick: () => {},
+          onClick: () => notImplemented('Enrollment Discrepancies'),
         },
       ],
     },
@@ -83,17 +92,17 @@ const Layout = () => {
         {
           label: 'Member Counts',
           icon: <Users strokeWidth={1.5} />,
-          onClick: () => {},
+          onClick: () => notImplemented('Member Counts'),
         },
         {
           label: 'SLA Performance',
           icon: <BarChart3 strokeWidth={1.5} />,
-          onClick: () => {},
+          onClick: () => notImplemented('SLA Performance'),
         },
         {
           label: 'Time to Production',
           icon: <Clock strokeWidth={1.5} />,
-          onClick: () => {},
+          onClick: () => notImplemented('Time to Production'),
         },
       ],
     },
@@ -103,12 +112,12 @@ const Layout = () => {
         {
           label: 'Users',
           icon: <Users strokeWidth={1.5} />,
-          onClick: () => {},
+          onClick: () => notImplemented('Users'),
         },
         {
           label: 'Account Settings',
           icon: <Settings strokeWidth={1.5} />,
-          onClick: () => {},
+          onClick: () => notImplemented('Account Settings'),
         },
       ],
     },
@@ -117,7 +126,10 @@ const Layout = () => {
   return (
     <div className="min-h-screen flex">
       <aside role="navigation" aria-label="Main menu">
-        <SideMenu sections={sideMenuSections} />
+        <SideMenu
+          sections={sideMenuSections}
+          onDashboardChange={handleDashboardChange}
+        />
       </aside>
       <main className="h-screen flex flex-1 flex-col" role="main">
         <Header />

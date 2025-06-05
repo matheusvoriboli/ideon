@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { Toaster } from 'react-hot-toast'
 import { Layout } from '~/components'
 import { Inbox, CoveragePeriods } from '~/pages'
 import { Routes as AppRoutes } from '~/utils/constants'
@@ -15,6 +16,12 @@ function App() {
           />
         </Route>
       </Routes>
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          duration: 3000,
+        }}
+      />
     </Router>
   )
 }
