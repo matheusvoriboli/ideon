@@ -111,12 +111,17 @@ const sideMenuSections = [
 const Layout = () => {
   return (
     <div className="min-h-screen flex">
-      <SideMenu sections={sideMenuSections} />
-      <main className="h-screen flex flex-1 flex-col">
+      <aside role="navigation" aria-label="Main menu">
+        <SideMenu sections={sideMenuSections} />
+      </aside>
+      <main className="h-screen flex flex-1 flex-col" role="main">
         <Header />
-        <div className="flex-1 p-6 overflow-hidden">
+        <section
+          className="flex-1 p-6 overflow-hidden"
+          aria-label="Main content"
+        >
           <Outlet />
-        </div>
+        </section>
       </main>
     </div>
   )

@@ -1,25 +1,59 @@
+import { useId } from 'react'
+
 type InputProps = {
   label?: string
   value: string
   placeholder?: string
   onChange: (value: string) => void
   icon?: React.ReactNode
+  required?: boolean
+  disabled?: boolean
+  'data-testid'?: string
 }
 
-const Input = ({ label, value, placeholder, onChange, icon }: InputProps) => {
+const Input = ({
+  label,
+  value,
+  placeholder,
+  onChange,
+  icon,
+  required = false,
+  disabled = false,
+  'data-testid': dataTestId,
+}: InputProps) => {
+  const inputId = useId()
+
   return (
     <div className="flex flex-col gap-2 w-full">
-      {label && <label className="text-sm font-medium">{label}</label>}
+      {label && (
+        <label htmlFor={inputId} className="text-sm font-medium">
+          {label}
+          {required && (
+            <span className="text-red-500 ml-1" aria-label="obrigatório">
+              *
+            </span>
+          )}
+        </label>
+      )}
       <div className="relative">
         <input
+          id={inputId}
           type="text"
           value={value}
           onChange={e => onChange(e.target.value)}
           placeholder={placeholder}
-          className={`w-full border border-ideon-primary-500 rounded-lg p-2 ${icon ? 'pl-8' : ''}`}
+          required={required}
+          disabled={disabled}
+          data-testid={dataTestId}
+          className={`w-full border border-ideon-primary-500 rounded-lg p-2 focus:ring-2 focus:ring-ideon-primary-200 focus:border-ideon-primary-300 disabled:bg-gray-100 disabled:cursor-not-allowed ${icon ? 'pl-8' : ''}`}
+          aria-describedby={icon ? `${inputId}-icon` : undefined}
         />
         {icon && (
-          <div className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-400">
+          <div
+            id={`${inputId}-icon`}
+            className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-400"
+            aria-hidden="true"
+          >
             {icon}
           </div>
         )}

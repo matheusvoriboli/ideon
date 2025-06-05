@@ -10,7 +10,6 @@ interface CoveragePeriodsActiveTagsProps {
   onRemoveFilter: (filterKey: keyof CoveragePeriodsFiltersForm) => void
 }
 
-// Mapeamento para nomes amigáveis dos filtros
 const filterLabels: Record<keyof CoveragePeriodsFiltersForm, string> = {
   organization: 'Organization',
   group: 'Group',
@@ -33,7 +32,6 @@ const CoveragePeriodsActiveTags: React.FC<CoveragePeriodsActiveTagsProps> = ({
       value?: string
     }> = []
 
-    // Organization (array) - agrupar em uma única tag
     if (activeFilters.organization && activeFilters.organization.length > 0) {
       const organizationsText = activeFilters.organization.join(', ')
       tags.push({
