@@ -12,6 +12,8 @@ interface UseTableReturn<T> {
   currentPage: number
   itemsPerPage: number
   searchTerm: string
+  sortColumn: keyof T | null
+  sortDirection: 'asc' | 'desc'
 
   // Computed values
   filteredData: T[]
@@ -25,6 +27,7 @@ interface UseTableReturn<T> {
   handlePageChange: (page: number) => void
   handleItemsPerPageChange: (newItemsPerPage: number) => void
   handleSearchChange: (value: string) => void
+  handleSort: (column: keyof T) => void
   resetToFirstPage: () => void
 }
 
@@ -37,6 +40,8 @@ export const useTable = <T extends Record<string, string | number>>({
   const [currentPage, setCurrentPage] = useState(initialPage)
   const [itemsPerPage, setItemsPerPage] = useState(initialItemsPerPage)
   const [searchTerm, setSearchTerm] = useState('')
+  const [sortColumn, setSortColumn] = useState<keyof T | null>(null)
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc')
 
   // Memoized filtered data based on search term
   const filteredData = useMemo(() => {
@@ -56,13 +61,41 @@ export const useTable = <T extends Record<string, string | number>>({
     )
   }, [data, searchFields, searchTerm])
 
+  // Memoized sorted data
+  const sortedData = useMemo(() => {
+    if (!sortColumn) return filteredData
+
+    return [...filteredData].sort((a, b) => {
+      const aValue = a[sortColumn]
+      const bValue = b[sortColumn]
+
+      // Handle null/undefined values
+      if (aValue == null && bValue == null) return 0
+      if (aValue == null) return sortDirection === 'asc' ? -1 : 1
+      if (bValue == null) return sortDirection === 'asc' ? 1 : -1
+
+      // Compare values
+      let comparison = 0
+      if (typeof aValue === 'string' && typeof bValue === 'string') {
+        comparison = aValue.toLowerCase().localeCompare(bValue.toLowerCase())
+      } else if (typeof aValue === 'number' && typeof bValue === 'number') {
+        comparison = aValue - bValue
+      } else {
+        // Convert to string for comparison
+        comparison = String(aValue).localeCompare(String(bValue))
+      }
+
+      return sortDirection === 'asc' ? comparison : -comparison
+    })
+  }, [filteredData, sortColumn, sortDirection])
+
   // Memoized pagination calculations
   const paginationData = useMemo(() => {
-    const totalItems = filteredData.length
+    const totalItems = sortedData.length
     const totalPages = Math.ceil(totalItems / itemsPerPage)
     const startIndex = (currentPage - 1) * itemsPerPage
     const endIndex = startIndex + itemsPerPage
-    const currentData = filteredData.slice(startIndex, endIndex)
+    const currentData = sortedData.slice(startIndex, endIndex)
 
     const startItem = totalItems > 0 ? startIndex + 1 : 0
     const endItem = Math.min(endIndex, totalItems)
@@ -74,7 +107,7 @@ export const useTable = <T extends Record<string, string | number>>({
       startItem,
       endItem,
     }
-  }, [filteredData, currentPage, itemsPerPage])
+  }, [sortedData, currentPage, itemsPerPage])
 
   // Handlers
   const handlePageChange = (page: number) => {
@@ -91,6 +124,18 @@ export const useTable = <T extends Record<string, string | number>>({
     setCurrentPage(1) // Reset to first page when searching
   }
 
+  const handleSort = (column: keyof T) => {
+    if (sortColumn === column) {
+      // Toggle direction if same column
+      setSortDirection(prev => (prev === 'asc' ? 'desc' : 'asc'))
+    } else {
+      // Set new column and default to ascending
+      setSortColumn(column)
+      setSortDirection('asc')
+    }
+    setCurrentPage(1) // Reset to first page when sorting
+  }
+
   const resetToFirstPage = () => {
     setCurrentPage(1)
   }
@@ -100,9 +145,11 @@ export const useTable = <T extends Record<string, string | number>>({
     currentPage,
     itemsPerPage,
     searchTerm,
+    sortColumn,
+    sortDirection,
 
     // Computed values
-    filteredData,
+    filteredData: sortedData,
     currentData: paginationData.currentData,
     totalItems: paginationData.totalItems,
     totalPages: paginationData.totalPages,
@@ -113,6 +160,7 @@ export const useTable = <T extends Record<string, string | number>>({
     handlePageChange,
     handleItemsPerPageChange,
     handleSearchChange,
+    handleSort,
     resetToFirstPage,
   }
 }

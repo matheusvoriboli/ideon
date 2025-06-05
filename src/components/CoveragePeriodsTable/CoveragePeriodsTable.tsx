@@ -18,8 +18,11 @@ const CoveragePeriodsTable = () => {
     currentData,
     totalItems,
     totalPages,
+    sortColumn,
+    sortDirection,
     handlePageChange,
     handleItemsPerPageChange,
+    handleSort,
   } = useTable({
     data: filteredData,
     searchFields: ['organizationName', 'carrier', 'account', 'uuid'],
@@ -46,19 +49,59 @@ const CoveragePeriodsTable = () => {
             >
               <Table.Header>
                 <Table.Row isHeader>
-                  <Table.Cell isHeader scope="col">
+                  <Table.Cell
+                    isHeader
+                    scope="col"
+                    sortable
+                    sortColumn="uuid"
+                    currentSortColumn={sortColumn}
+                    currentSortDirection={sortDirection}
+                    onSort={handleSort}
+                  >
                     UUID
                   </Table.Cell>
-                  <Table.Cell isHeader scope="col">
+                  <Table.Cell
+                    isHeader
+                    scope="col"
+                    sortable
+                    sortColumn="organizationName"
+                    currentSortColumn={sortColumn}
+                    currentSortDirection={sortDirection}
+                    onSort={handleSort}
+                  >
                     Organization Name
                   </Table.Cell>
-                  <Table.Cell isHeader scope="col">
+                  <Table.Cell
+                    isHeader
+                    scope="col"
+                    sortable
+                    sortColumn="carrier"
+                    currentSortColumn={sortColumn}
+                    currentSortDirection={sortDirection}
+                    onSort={handleSort}
+                  >
                     Carrier
                   </Table.Cell>
-                  <Table.Cell isHeader scope="col">
+                  <Table.Cell
+                    isHeader
+                    scope="col"
+                    sortable
+                    sortColumn="account"
+                    currentSortColumn={sortColumn}
+                    currentSortDirection={sortDirection}
+                    onSort={handleSort}
+                  >
                     Account
                   </Table.Cell>
-                  <Table.Cell isHeader scope="col">
+                  <Table.Cell
+                    isHeader
+                    scope="col"
+                    sortable
+                    sortColumn="deliveryConfiguration"
+                    currentSortColumn={sortColumn}
+                    currentSortDirection={sortDirection}
+                    onSort={handleSort}
+                  >
                     Delivery Configuration
                   </Table.Cell>
                 </Table.Row>

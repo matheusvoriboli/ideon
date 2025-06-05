@@ -1,4 +1,5 @@
 import React from 'react'
+import { ChevronUp, ChevronDown } from 'lucide-react'
 
 interface TableProps {
   children: React.ReactNode
@@ -29,6 +30,11 @@ interface TableCellProps {
   isHeader?: boolean
   align?: 'left' | 'center' | 'right'
   scope?: 'col' | 'row' | 'colgroup' | 'rowgroup'
+  sortable?: boolean
+  sortColumn?: string | number
+  currentSortColumn?: string | number | null
+  currentSortDirection?: 'asc' | 'desc'
+  onSort?: (column: string | number) => void
 }
 
 const Table: React.FC<TableProps> & {
@@ -40,7 +46,7 @@ const Table: React.FC<TableProps> & {
   return (
     <div className="overflow-x-auto">
       <table
-        className={`min-w-full bg-white border border-ideon-primary-500 rounded-lg ${className}`}
+        className={`min-w-full bg-white border border-gray-200 rounded-lg ${className}`}
         aria-label={ariaLabel}
         role="table"
       >
@@ -75,7 +81,7 @@ const TableRow: React.FC<TableRowProps> = ({
   className = '',
   isHeader = false,
 }) => {
-  const baseClasses = isHeader ? 'border-b border-ideon-primary-500' : ''
+  const baseClasses = isHeader && 'border-b border-gray-200'
 
   return (
     <tr className={`${baseClasses} ${className}`} role="row">
@@ -90,6 +96,11 @@ const TableCell: React.FC<TableCellProps> = ({
   isHeader = false,
   align = 'left',
   scope,
+  sortable = false,
+  sortColumn,
+  currentSortColumn = null,
+  currentSortDirection = 'asc',
+  onSort,
 }) => {
   const alignClasses = {
     left: 'text-left',
@@ -97,11 +108,59 @@ const TableCell: React.FC<TableCellProps> = ({
     right: 'text-right',
   }
 
-  const baseClasses = isHeader ? 'px-2 py-3' : 'px-2 py-3'
+  const baseClasses = isHeader
+    ? 'px-6 py-3 border-r border-gray-200 last:border-r-0'
+    : 'px-6 py-4 border-r border-gray-200 last:border-r-0'
 
   const Component = isHeader ? 'th' : 'td'
-
   const cellScope = isHeader ? scope || 'col' : undefined
+
+  const getSortIcons = () => {
+    if (!sortable || !isHeader) return null
+
+    const isActive = currentSortColumn === sortColumn
+    const upColor =
+      isActive && currentSortDirection === 'asc'
+        ? 'text-ideon-primary-300'
+        : 'text-gray-300'
+    const downColor =
+      isActive && currentSortDirection === 'desc'
+        ? 'text-ideon-primary-300'
+        : 'text-gray-300'
+
+    return (
+      <div className="flex flex-col">
+        <ChevronUp size={12} className={upColor} aria-hidden="true" />
+        <ChevronDown size={12} className={downColor} aria-hidden="true" />
+      </div>
+    )
+  }
+
+  const handleSort = () => {
+    if (sortable && onSort && sortColumn) {
+      onSort(sortColumn)
+    }
+  }
+
+  if (isHeader && sortable) {
+    return (
+      <Component
+        className={`${baseClasses} ${alignClasses[align]} ${className}`}
+        scope={cellScope}
+        role="columnheader"
+      >
+        <button
+          type="button"
+          className="flex items-center justify-between w-full font-semibold cursor-pointer rounded p-1 -m-1"
+          onClick={handleSort}
+          aria-label={`Sort by ${sortColumn} ${currentSortColumn === sortColumn ? (currentSortDirection === 'asc' ? 'descending' : 'ascending') : 'ascending'}`}
+        >
+          <span>{children}</span>
+          {getSortIcons()}
+        </button>
+      </Component>
+    )
+  }
 
   return (
     <Component
