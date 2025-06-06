@@ -141,14 +141,12 @@ export const useTable = <T extends Record<string, string | number>>({
   }
 
   return {
-    // State
     currentPage,
     itemsPerPage,
     searchTerm,
     sortColumn,
     sortDirection,
 
-    // Computed values
     filteredData: sortedData,
     currentData: paginationData.currentData,
     totalItems: paginationData.totalItems,
@@ -156,7 +154,6 @@ export const useTable = <T extends Record<string, string | number>>({
     startItem: paginationData.startItem,
     endItem: paginationData.endItem,
 
-    // Handlers
     handlePageChange,
     handleItemsPerPageChange,
     handleSearchChange,

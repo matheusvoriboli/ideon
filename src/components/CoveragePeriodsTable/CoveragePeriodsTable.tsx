@@ -2,7 +2,13 @@ import { Copy, SearchX } from 'lucide-react'
 import { useMemo } from 'react'
 import { Pagination, Table } from '~/components'
 import { useFiltersStore } from '~/stores/filtersStore'
-import { useTable, mockData, filterCoveragePeriodsData } from '~/utils'
+import {
+  useTable,
+  mockData,
+  filterCoveragePeriodsData,
+  showSuccess,
+  showError,
+} from '~/utils'
 
 const CoveragePeriodsTable = () => {
   const { activeFilters } = useFiltersStore()
@@ -32,9 +38,9 @@ const CoveragePeriodsTable = () => {
   const handleCopyUUID = async (uuid: string) => {
     try {
       await navigator.clipboard.writeText(uuid)
-      // TODO: Add notification here
-    } catch (err) {
-      console.error('Falha ao copiar UUID:', err)
+      showSuccess('UUID copied to clipboard')
+    } catch {
+      showError('Failed to copy UUID')
     }
   }
 
