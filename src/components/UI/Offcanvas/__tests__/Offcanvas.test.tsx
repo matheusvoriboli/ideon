@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Offcanvas from '../Offcanvas'
 
@@ -179,11 +179,17 @@ describe('Offcanvas Component', () => {
       expect(dialog).toHaveClass('fixed', 'inset-0', 'bg-black/50', 'z-[1000]')
     })
 
-    it('should apply transform classes for animation', () => {
+    it('should apply transform classes for animation', async () => {
       const { container } = render(<Offcanvas {...defaultProps} />)
 
-      const offcanvasPanel = container.querySelector('.transform')
-      expect(offcanvasPanel).toHaveClass('translate-x-0')
+      // Wait for the animation state to be applied after the 10ms delay
+      await waitFor(
+        () => {
+          const offcanvasPanel = container.querySelector('.transform')
+          expect(offcanvasPanel).toHaveClass('translate-x-0')
+        },
+        { timeout: 100 }
+      )
     })
   })
 })
