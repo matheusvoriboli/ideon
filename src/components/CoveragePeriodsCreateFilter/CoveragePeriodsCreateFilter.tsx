@@ -4,22 +4,27 @@ import {
   type CoveragePeriodsFiltersForm,
   DistributionFormat,
   mockData,
+  showSuccess,
+  defaultCoveragePeriodsFilters,
 } from '~/utils'
 import { useFiltersStore } from '~/stores/filtersStore'
 
 interface CoveragePeriodsCreateFilterProps {
   methods: UseFormReturn<CoveragePeriodsFiltersForm>
+  closeOffcanvas: () => void
 }
 
 const CoveragePeriodsCreateFilter: React.FC<
   CoveragePeriodsCreateFilterProps
-> = ({ methods }) => {
+> = ({ methods, closeOffcanvas }) => {
   const { register, watch, setValue, handleSubmit, reset } = methods
   const { setActiveFilters, resetActiveFilters, startSavingFilter } =
     useFiltersStore()
 
   const handleFormSubmit = handleSubmit(data => {
     setActiveFilters(data)
+    closeOffcanvas()
+    showSuccess('Filters applied successfully')
   })
 
   const handleSaveFilter = () => {
@@ -28,8 +33,9 @@ const CoveragePeriodsCreateFilter: React.FC<
   }
 
   const handleReset = () => {
-    reset()
+    reset(defaultCoveragePeriodsFilters)
     resetActiveFilters()
+    showSuccess('Filters reset successfully')
   }
 
   const getOptions = (key: keyof (typeof mockData)[number]) => {
@@ -44,7 +50,7 @@ const CoveragePeriodsCreateFilter: React.FC<
       <div className="space-y-4 flex-1 overflow-y-auto h-full">
         <Dropdown
           label="Organization Name"
-          value={watch('organization')}
+          value={watch('organization') || []}
           options={getOptions('organizationName')}
           onChange={value => setValue('organization', value as string[])}
           multiple
@@ -184,7 +190,7 @@ const CoveragePeriodsCreateFilter: React.FC<
         >
           Reset
         </Button>
-        <Button type="submit" className="flex-1" onClick={() => {}}>
+        <Button type="submit" className="flex-1">
           Apply
         </Button>
       </div>

@@ -22,13 +22,33 @@ const CoveragePeriodsFilterOffcanvas = ({
   const renderCurrentStep = () => {
     switch (currentStep) {
       case 'filters':
-        return <CoveragePeriodsCreateFilter methods={methods} />
+        return (
+          <CoveragePeriodsCreateFilter
+            methods={methods}
+            closeOffcanvas={onClose}
+          />
+        )
       case 'saved-filters':
-        return <CoveragePeriodsSavedFilter />
+        return (
+          <CoveragePeriodsSavedFilter
+            closeOffcanvas={onClose}
+            methods={methods}
+          />
+        )
       case 'name-filter':
-        return <CoveragePeriodsNameFilter methods={methods} />
+        return (
+          <CoveragePeriodsNameFilter
+            methods={methods}
+            closeOffcanvas={onClose}
+          />
+        )
       default:
-        return <CoveragePeriodsCreateFilter methods={methods} />
+        return (
+          <CoveragePeriodsCreateFilter
+            methods={methods}
+            closeOffcanvas={onClose}
+          />
+        )
     }
   }
 
@@ -43,8 +63,32 @@ const CoveragePeriodsFilterOffcanvas = ({
     }
   }
 
+  const handleBackToFilters = () => {
+    setCurrentStep('filters')
+  }
+
+  const getOffcanvasProps = () => {
+    if (currentStep === 'name-filter') {
+      return {
+        title: 'Save Filter',
+        showBackButton: true,
+        onBack: handleBackToFilters,
+      }
+    }
+    if (currentStep === 'saved-filters') {
+      return {
+        title: 'Saved Filters',
+        showBackButton: false,
+      }
+    }
+    return {
+      title: 'Select Filters',
+      showBackButton: false,
+    }
+  }
+
   return (
-    <Offcanvas isOpen={isOpen} onClose={onClose}>
+    <Offcanvas isOpen={isOpen} onClose={onClose} {...getOffcanvasProps()}>
       {currentStep !== 'name-filter' && (
         <div className="mb-6">
           <Tabs

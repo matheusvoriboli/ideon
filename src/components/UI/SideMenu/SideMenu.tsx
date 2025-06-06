@@ -93,7 +93,7 @@ export const SideMenu = ({
             {section.items.map(item => (
               <div
                 key={item.label}
-                className={`flex items-center cursor-pointer py-3 hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white ${isCollapsed ? 'justify-center px-3' : 'gap-3 px-6'} ${
+                className={`flex items-center cursor-pointer py-3 hover:opacity-80 ${isCollapsed ? 'justify-center px-3' : 'gap-3 px-6'} ${
                   item.isActive
                     ? 'text-ideon-primary-400 bg-ideon-dark-100 '
                     : ''

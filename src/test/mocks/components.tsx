@@ -15,7 +15,7 @@ export const CoveragePeriodsFilterOffcanvas = vi.fn(({ isOpen, onClose }) => (
 
 // CoveragePeriodsTable mock
 export const CoveragePeriodsTable = vi.fn(() => (
-  <div data-testid="coverage-periods-table">Coverage Periods Table</div>
+  <div>Coverage Periods Table</div>
 ))
 
 // CoveragePeriodsActiveTags mock
