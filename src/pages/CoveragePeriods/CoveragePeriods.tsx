@@ -15,24 +15,40 @@ import {
   defaultCoveragePeriodsFilters,
 } from '~/utils/schemas/coveragePeriodsSchema'
 import { useFiltersStore } from '~/stores/filtersStore'
-import { notImplemented } from '~/utils'
+import { notImplemented, showSuccess } from '~/utils'
 
 const CoveragePeriods: React.FC = () => {
   const [isOffcanvasOpen, setIsOffcanvasOpen] = useState(false)
   const [searchValue, setSearchValue] = useState('')
   const isInitialMount = useRef(true)
+  const hasCheckedDefaultFilter = useRef(false)
 
   const {
     activeFilters,
     setCurrentStep,
     removeSpecificFilter,
     resetActiveFilters,
+    getDefaultFilter,
+    applyFilter,
   } = useFiltersStore()
 
   const methods = useForm<CoveragePeriodsFiltersForm>({
     resolver: zodResolver(coveragePeriodsFiltersSchema),
     defaultValues: defaultCoveragePeriodsFilters,
   })
+
+  // Check for default filter on mount
+  useEffect(() => {
+    if (!hasCheckedDefaultFilter.current) {
+      hasCheckedDefaultFilter.current = true
+      const defaultFilter = getDefaultFilter()
+
+      if (defaultFilter) {
+        applyFilter(defaultFilter)
+        methods.reset(defaultFilter.filters)
+      }
+    }
+  }, [getDefaultFilter, applyFilter, methods])
 
   useEffect(() => {
     if (isInitialMount.current) {
@@ -59,11 +75,13 @@ const CoveragePeriods: React.FC = () => {
 
   const handleRemoveFilter = (filterKey: keyof CoveragePeriodsFiltersForm) => {
     removeSpecificFilter(filterKey)
+    showSuccess('Filter removed successfully')
   }
 
   const handleResetFilters = () => {
-    methods.reset()
+    methods.reset(defaultCoveragePeriodsFilters)
     resetActiveFilters()
+    showSuccess('Filters reset successfully')
   }
 
   return (
@@ -139,10 +157,9 @@ const CoveragePeriods: React.FC = () => {
       <section
         className="flex-1 px-4 py-6 overflow-hidden"
         aria-label="Coverage periods table"
+        data-testid="coverage-periods-table"
       >
-        <div data-testid="coverage-periods-table">
-          <CoveragePeriodsTable />
-        </div>
+        <CoveragePeriodsTable />
       </section>
     </main>
   )

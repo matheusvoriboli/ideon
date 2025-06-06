@@ -19,6 +19,8 @@ const mockFiltersStore = {
   setCurrentStep: vi.fn(),
   removeSpecificFilter: vi.fn(),
   resetActiveFilters: vi.fn(),
+  getDefaultFilter: vi.fn(() => null),
+  applyFilter: vi.fn(),
 }
 
 // Hook Form Mock
@@ -63,11 +65,9 @@ vi.mock('~/index', () => ({
       )}
     </div>
   ),
-  CoveragePeriodsTable: () => (
-    <div data-testid="coverage-periods-table">Coverage Periods Table</div>
-  ),
+  CoveragePeriodsTable: () => <div>Coverage Periods Table</div>,
   CoveragePeriodsActiveTags: ({ activeFilters, onRemoveFilter }: any) => (
-    <div data-testid="coverage-periods-active-tags">
+    <div>
       {Object.entries(activeFilters).map(([key, value]) => {
         if (!value) return null
         return (

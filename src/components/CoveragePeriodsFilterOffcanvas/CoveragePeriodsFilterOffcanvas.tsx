@@ -22,13 +22,33 @@ const CoveragePeriodsFilterOffcanvas = ({
   const renderCurrentStep = () => {
     switch (currentStep) {
       case 'filters':
-        return <CoveragePeriodsCreateFilter methods={methods} />
+        return (
+          <CoveragePeriodsCreateFilter
+            methods={methods}
+            closeOffcanvas={onClose}
+          />
+        )
       case 'saved-filters':
-        return <CoveragePeriodsSavedFilter />
+        return (
+          <CoveragePeriodsSavedFilter
+            closeOffcanvas={onClose}
+            methods={methods}
+          />
+        )
       case 'name-filter':
-        return <CoveragePeriodsNameFilter methods={methods} />
+        return (
+          <CoveragePeriodsNameFilter
+            methods={methods}
+            closeOffcanvas={onClose}
+          />
+        )
       default:
-        return <CoveragePeriodsCreateFilter methods={methods} />
+        return (
+          <CoveragePeriodsCreateFilter
+            methods={methods}
+            closeOffcanvas={onClose}
+          />
+        )
     }
   }
 

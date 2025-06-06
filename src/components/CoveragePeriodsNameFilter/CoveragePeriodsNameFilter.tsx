@@ -2,11 +2,12 @@ import { useState } from 'react'
 import { Button, Input, Checkbox } from '~/index'
 import { useFiltersStore } from '~/stores/filtersStore'
 import { UseFormReturn } from 'react-hook-form'
-import { CoveragePeriodsFiltersForm } from '~/utils'
+import { CoveragePeriodsFiltersForm, showSuccess } from '~/utils'
 
 const CoveragePeriodsNameFilter: React.FC<{
   methods: UseFormReturn<CoveragePeriodsFiltersForm>
-}> = ({ methods }) => {
+  closeOffcanvas: () => void
+}> = ({ methods, closeOffcanvas }) => {
   const [filterName, setFilterName] = useState('')
   const [isDefault, setIsDefault] = useState(false)
 
@@ -20,6 +21,8 @@ const CoveragePeriodsNameFilter: React.FC<{
       setFilterName('')
       setIsDefault(false)
       setCurrentStep('saved-filters')
+      closeOffcanvas()
+      showSuccess('Filter saved successfully')
     }
   }
 
@@ -27,12 +30,16 @@ const CoveragePeriodsNameFilter: React.FC<{
     cancelSavingFilter()
     setFilterName('')
     setIsDefault(false)
+    closeOffcanvas()
+    showSuccess('Filter canceled successfully')
   }
 
   const handleBackToFilters = () => {
     setCurrentStep('filters')
     setFilterName('')
     setIsDefault(false)
+    closeOffcanvas()
+    showSuccess('Filter reset successfully')
   }
 
   return (
