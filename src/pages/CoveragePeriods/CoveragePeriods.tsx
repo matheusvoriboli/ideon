@@ -123,7 +123,7 @@ const CoveragePeriods: React.FC = () => {
           </Button>
         </nav>
 
-        <div data-testid="coverage-periods-active-tags">
+        <div>
           <CoveragePeriodsActiveTags
             activeFilters={activeFilters}
             onRemoveFilter={handleRemoveFilter}
@@ -135,7 +135,7 @@ const CoveragePeriods: React.FC = () => {
         className="flex-1 px-4 py-6 overflow-hidden"
         aria-label="Coverage periods table"
       >
-        <div data-testid="coverage-periods-table">
+        <div>
           <CoveragePeriodsTable />
         </div>
       </section>
