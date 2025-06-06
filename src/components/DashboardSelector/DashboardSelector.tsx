@@ -72,7 +72,7 @@ export const DashboardSelector = ({
         />
       </div>
 
-      {/* Dropdown com Opções */}
+      {/* Dropdown with Options */}
       {isOpen && (
         <div className="absolute top-full left-0 right-0 mt-2 bg-ideon-dark-100 border border-gray-600 rounded-lg shadow-lg z-50 overflow-hidden">
           {options.map(option => (

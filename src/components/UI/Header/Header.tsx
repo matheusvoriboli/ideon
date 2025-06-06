@@ -1,13 +1,22 @@
 import { Bell } from 'lucide-react'
+import { useLocation } from 'react-router-dom'
+import { Routes, routeLabels } from '~/utils/constants'
 
 const Header: React.FC = () => {
+  const location = useLocation()
+
+  // Get the page name based on current route
+  const getPageName = (): string => {
+    const currentRoute = location.pathname as Routes
+    return routeLabels[currentRoute] || 'Page'
+  }
+
   return (
     <header className="h-16" role="banner">
       <div className="px-6">
         <div className="flex justify-between items-center h-16">
-          {/* TODO: Send page name as parameter */}
           <h1 className="flex items-center text-lg font-semibold">
-            Coverage Periods
+            {getPageName()}
           </h1>
           <nav
             className="flex items-center space-x-4"

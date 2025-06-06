@@ -1,8 +1,14 @@
 import { Copy, SearchX } from 'lucide-react'
-import { useMemo } from 'react'
+import { useMemo, useEffect } from 'react'
 import { Pagination, Table } from '~/components'
 import { useFiltersStore } from '~/stores/filtersStore'
-import { useTable, mockData, filterCoveragePeriodsData } from '~/utils'
+import {
+  useTable,
+  mockData,
+  filterCoveragePeriodsData,
+  showError,
+  showSuccess,
+} from '~/utils'
 
 const CoveragePeriodsTable = () => {
   const { activeFilters } = useFiltersStore()
@@ -18,20 +24,29 @@ const CoveragePeriodsTable = () => {
     currentData,
     totalItems,
     totalPages,
+    sortColumn,
+    sortDirection,
     handlePageChange,
     handleItemsPerPageChange,
+    handleSort,
+    resetToFirstPage,
   } = useTable({
     data: filteredData,
     searchFields: ['organizationName', 'carrier', 'account', 'uuid'],
     initialItemsPerPage: 10,
   })
 
+  // Reset to first page when filters change
+  useEffect(() => {
+    resetToFirstPage()
+  }, [activeFilters, resetToFirstPage])
+
   const handleCopyUUID = async (uuid: string) => {
     try {
       await navigator.clipboard.writeText(uuid)
-      // TODO: Add notification here
-    } catch (err) {
-      console.error('Falha ao copiar UUID:', err)
+      showSuccess('UUID copied to clipboard')
+    } catch {
+      showError('Failed to copy UUID')
     }
   }
 
@@ -46,19 +61,59 @@ const CoveragePeriodsTable = () => {
             >
               <Table.Header>
                 <Table.Row isHeader>
-                  <Table.Cell isHeader scope="col">
+                  <Table.Cell
+                    isHeader
+                    scope="col"
+                    sortable
+                    sortColumn="uuid"
+                    currentSortColumn={sortColumn}
+                    currentSortDirection={sortDirection}
+                    onSort={handleSort}
+                  >
                     UUID
                   </Table.Cell>
-                  <Table.Cell isHeader scope="col">
+                  <Table.Cell
+                    isHeader
+                    scope="col"
+                    sortable
+                    sortColumn="organizationName"
+                    currentSortColumn={sortColumn}
+                    currentSortDirection={sortDirection}
+                    onSort={handleSort}
+                  >
                     Organization Name
                   </Table.Cell>
-                  <Table.Cell isHeader scope="col">
+                  <Table.Cell
+                    isHeader
+                    scope="col"
+                    sortable
+                    sortColumn="carrier"
+                    currentSortColumn={sortColumn}
+                    currentSortDirection={sortDirection}
+                    onSort={handleSort}
+                  >
                     Carrier
                   </Table.Cell>
-                  <Table.Cell isHeader scope="col">
+                  <Table.Cell
+                    isHeader
+                    scope="col"
+                    sortable
+                    sortColumn="account"
+                    currentSortColumn={sortColumn}
+                    currentSortDirection={sortDirection}
+                    onSort={handleSort}
+                  >
                     Account
                   </Table.Cell>
-                  <Table.Cell isHeader scope="col">
+                  <Table.Cell
+                    isHeader
+                    scope="col"
+                    sortable
+                    sortColumn="deliveryConfiguration"
+                    currentSortColumn={sortColumn}
+                    currentSortDirection={sortDirection}
+                    onSort={handleSort}
+                  >
                     Delivery Configuration
                   </Table.Cell>
                 </Table.Row>

@@ -119,7 +119,7 @@ describe('coveragePeriodsSchema', () => {
         ...defaultCoveragePeriodsFilters,
         coverageStartDate: {
           date: '2024-01-01',
-          relative: 'invalid_value', // Deve ser 'before' ou 'after'
+          relative: 'invalid_value', // It should be before or after
         },
       }
 
@@ -189,7 +189,6 @@ describe('coveragePeriodsSchema', () => {
 
     it('deve rejeitar filtro salvo com campos obrigatórios faltando', () => {
       const invalidSavedFilter = {
-        // id faltando
         name: 'Incomplete Filter',
         isDefault: false,
         filters: defaultCoveragePeriodsFilters,
@@ -205,7 +204,7 @@ describe('coveragePeriodsSchema', () => {
       const invalidSavedFilter = {
         id: 'filter-123',
         name: 'Valid Name',
-        isDefault: 'not-a-boolean', // Deve ser boolean
+        isDefault: 'not-a-boolean',
         filters: defaultCoveragePeriodsFilters,
         createdAt: new Date(),
       }
@@ -275,7 +274,6 @@ describe('coveragePeriodsSchema', () => {
 
   describe('Tipos TypeScript', () => {
     it('deve exportar tipos corretos', () => {
-      // Teste de compilação TypeScript - se compila, os tipos estão corretos
       const filters: CoveragePeriodsFiltersForm = defaultCoveragePeriodsFilters
       const savedFilter: SavedFilter = {
         id: 'test',

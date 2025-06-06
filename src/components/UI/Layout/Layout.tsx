@@ -11,108 +11,125 @@ import {
   StickyNote,
   FileSearch,
 } from 'lucide-react'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { SideMenu, Header } from '~/components'
-
-const sideMenuSections = [
-  {
-    items: [
-      {
-        label: 'Inbox',
-        icon: <Inbox strokeWidth={1.5} />,
-        onClick: () => {},
-        badge: 8,
-      },
-    ],
-  },
-  {
-    title: 'Perspective Groups',
-    items: [
-      {
-        label: 'Perspective Groups',
-        icon: <Folder strokeWidth={1.5} />,
-        onClick: () => {},
-      },
-    ],
-  },
-  {
-    title: 'Enrollments',
-    items: [
-      {
-        label: 'Pre Coverage Periods',
-        icon: <BookOpen strokeWidth={1.5} />,
-        onClick: () => {},
-      },
-      {
-        label: 'Coverage Periods',
-        icon: <StickyNote strokeWidth={1.5} />,
-        onClick: () => {},
-        isActive: true,
-      },
-      {
-        label: 'Enrollment Tasks',
-        icon: <Briefcase strokeWidth={1.5} />,
-        onClick: () => {},
-      },
-      {
-        label: 'Customer Tickets',
-        icon: <Ticket strokeWidth={1.5} />,
-        onClick: () => {},
-      },
-    ],
-  },
-  {
-    title: 'Discrepancies',
-    items: [
-      {
-        label: 'Enrollment Discrepancies',
-        icon: <FileSearch strokeWidth={1.5} />,
-        onClick: () => {},
-      },
-    ],
-  },
-  {
-    title: 'Reports',
-    items: [
-      {
-        label: 'Member Counts',
-        icon: <Users strokeWidth={1.5} />,
-        onClick: () => {},
-      },
-      {
-        label: 'SLA Performance',
-        icon: <BarChart3 strokeWidth={1.5} />,
-        onClick: () => {},
-      },
-      {
-        label: 'Time to Production',
-        icon: <Clock strokeWidth={1.5} />,
-        onClick: () => {},
-      },
-    ],
-  },
-  {
-    title: 'Admin',
-    items: [
-      {
-        label: 'Users',
-        icon: <Users strokeWidth={1.5} />,
-        onClick: () => {},
-      },
-      {
-        label: 'Account Settings',
-        icon: <Settings strokeWidth={1.5} />,
-        onClick: () => {},
-      },
-    ],
-  },
-]
+import { Routes } from '~/utils/constants'
+import { notImplemented } from '~/utils/helpers/notifications'
 
 const Layout = () => {
+  const location = useLocation()
+  const navigate = useNavigate()
+
+  const handleDashboardChange = (dashboard: {
+    id: string
+    title: string
+    acronym: string
+  }) => {
+    notImplemented(dashboard.title)
+  }
+
+  const sideMenuSections = [
+    {
+      items: [
+        {
+          label: 'Inbox',
+          icon: <Inbox strokeWidth={1.5} />,
+          onClick: () => navigate(Routes.INBOX),
+          badge: 8,
+          isActive: location.pathname === Routes.INBOX,
+        },
+      ],
+    },
+    {
+      title: 'Perspective Groups',
+      items: [
+        {
+          label: 'Perspective Groups',
+          icon: <Folder strokeWidth={1.5} />,
+          onClick: () => notImplemented('Perspective Groups'),
+        },
+      ],
+    },
+    {
+      title: 'Enrollments',
+      items: [
+        {
+          label: 'Pre Coverage Periods',
+          icon: <BookOpen strokeWidth={1.5} />,
+          onClick: () => notImplemented('Pre Coverage Periods'),
+        },
+        {
+          label: 'Coverage Periods',
+          icon: <StickyNote strokeWidth={1.5} />,
+          onClick: () => navigate(Routes.COVERAGE_PERIODS),
+          isActive: location.pathname === Routes.COVERAGE_PERIODS,
+        },
+        {
+          label: 'Enrollment Tasks',
+          icon: <Briefcase strokeWidth={1.5} />,
+          onClick: () => notImplemented('Enrollment Tasks'),
+        },
+        {
+          label: 'Customer Tickets',
+          icon: <Ticket strokeWidth={1.5} />,
+          onClick: () => notImplemented('Customer Tickets'),
+        },
+      ],
+    },
+    {
+      title: 'Discrepancies',
+      items: [
+        {
+          label: 'Enrollment Discrepancies',
+          icon: <FileSearch strokeWidth={1.5} />,
+          onClick: () => notImplemented('Enrollment Discrepancies'),
+        },
+      ],
+    },
+    {
+      title: 'Reports',
+      items: [
+        {
+          label: 'Member Counts',
+          icon: <Users strokeWidth={1.5} />,
+          onClick: () => notImplemented('Member Counts'),
+        },
+        {
+          label: 'SLA Performance',
+          icon: <BarChart3 strokeWidth={1.5} />,
+          onClick: () => notImplemented('SLA Performance'),
+        },
+        {
+          label: 'Time to Production',
+          icon: <Clock strokeWidth={1.5} />,
+          onClick: () => notImplemented('Time to Production'),
+        },
+      ],
+    },
+    {
+      title: 'Admin',
+      items: [
+        {
+          label: 'Users',
+          icon: <Users strokeWidth={1.5} />,
+          onClick: () => notImplemented('Users'),
+        },
+        {
+          label: 'Account Settings',
+          icon: <Settings strokeWidth={1.5} />,
+          onClick: () => notImplemented('Account Settings'),
+        },
+      ],
+    },
+  ]
+
   return (
     <div className="min-h-screen flex">
       <aside role="navigation" aria-label="Main menu">
-        <SideMenu sections={sideMenuSections} />
+        <SideMenu
+          sections={sideMenuSections}
+          onDashboardChange={handleDashboardChange}
+        />
       </aside>
       <main className="h-screen flex flex-1 flex-col" role="main">
         <Header />
