@@ -11,8 +11,7 @@ const CoveragePeriodsNameFilter: React.FC<{
   const [filterName, setFilterName] = useState('')
   const [isDefault, setIsDefault] = useState(false)
 
-  const { filterToSave, addSavedFilter, cancelSavingFilter, setCurrentStep } =
-    useFiltersStore()
+  const { filterToSave, addSavedFilter, setCurrentStep } = useFiltersStore()
 
   const handleSave = () => {
     if (filterName.trim() && filterToSave) {
@@ -26,31 +25,15 @@ const CoveragePeriodsNameFilter: React.FC<{
     }
   }
 
-  const handleCancel = () => {
-    cancelSavingFilter()
-    setFilterName('')
-    setIsDefault(false)
-    closeOffcanvas()
-    showSuccess('Filter canceled successfully')
-  }
-
-  const handleBackToFilters = () => {
-    setCurrentStep('filters')
-    setFilterName('')
-    setIsDefault(false)
-    closeOffcanvas()
-    showSuccess('Filter reset successfully')
-  }
-
   return (
     <div className="h-full flex flex-col">
       <div className="flex-1 space-y-4">
         <div>
           <Input
-            label="Filter Name"
+            label="Name"
             value={filterName}
             onChange={setFilterName}
-            placeholder="Enter filter name"
+            placeholder="Initial and Paused"
           />
         </div>
 
@@ -61,25 +44,15 @@ const CoveragePeriodsNameFilter: React.FC<{
           <div className="flex flex-col gap-2">
             <label className="text-sm">Set as default filter</label>
             <span className="text-xs text-gray-600">
-              This filter will be applied by default when you visit this page.
+              This filter will be applied by default when you visit this page
             </span>
           </div>
         </div>
       </div>
 
-      <div className="flex gap-2 pt-4 border-t border-ideon-primary-500">
-        <Button variant="outline" className="flex-1" onClick={handleCancel}>
-          Cancel
-        </Button>
+      <div className="pt-4 border-t border-ideon-primary-500">
         <Button
-          variant="outline"
-          className="flex-1"
-          onClick={handleBackToFilters}
-        >
-          Back to Filters
-        </Button>
-        <Button
-          className="flex-1"
+          className="w-full"
           onClick={handleSave}
           disabled={!filterName.trim()}
         >

@@ -46,7 +46,7 @@ const Table: React.FC<TableProps> & {
   return (
     <div className="overflow-x-auto">
       <table
-        className={`min-w-full bg-white border border-gray-200 rounded-lg ${className}`}
+        className={`min-w-full bg-white border border-ideon-light rounded-lg ${className}`}
         aria-label={ariaLabel}
         role="table"
       >
@@ -70,7 +70,10 @@ const TableHeader: React.FC<TableHeaderProps> = ({
 
 const TableBody: React.FC<TableBodyProps> = ({ children, className = '' }) => {
   return (
-    <tbody className={`divide-y divide-gray-200 ${className}`} role="rowgroup">
+    <tbody
+      className={`divide-y divide-ideon-light ${className}`}
+      role="rowgroup"
+    >
       {children}
     </tbody>
   )
@@ -109,8 +112,8 @@ const TableCell: React.FC<TableCellProps> = ({
   }
 
   const baseClasses = isHeader
-    ? 'px-6 py-3 border-r border-gray-200 last:border-r-0'
-    : 'px-6 py-4 border-r border-gray-200 last:border-r-0'
+    ? 'px-4 py-2.5 border-r border-gray-200 last:border-r-0'
+    : 'px-4 py-2 border-r border-gray-200 last:border-r-0'
 
   const Component = isHeader ? 'th' : 'td'
   const cellScope = isHeader ? scope || 'col' : undefined
