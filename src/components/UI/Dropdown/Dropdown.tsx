@@ -62,6 +62,26 @@ const Dropdown: React.FC<DropdownProps> = ({
 
   const singleSelectedOption = !multiple ? selectedOptions[0] : null
 
+  // Handle clicks outside dropdown to close it
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false)
+      }
+    }
+
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside)
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [isOpen])
+
   // Calculate dropdown position when opening
   useEffect(() => {
     if (isOpen && dropdownRef.current) {
@@ -162,7 +182,7 @@ const Dropdown: React.FC<DropdownProps> = ({
           onKeyDown={handleKeyDown}
           className={`
             w-full h-[40px] px-3 py-2 bg-white border border-ideon-primary-500 rounded-lg cursor-pointer
-            flex items-center justify-between gap-2 focus:outline-none
+            flex items-center justify-between gap-2 focus:outline-none focus-visible:shadow-[inset_0_0_0_2px_rgb(34_197_94)]
             ${disabled && 'bg-gray-50 cursor-not-allowed'}
           `}
           role="combobox"

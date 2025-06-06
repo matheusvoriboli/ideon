@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react'
 import { X, ChevronLeft } from 'lucide-react'
 import React from 'react'
 import { Button } from '~/index'
@@ -19,6 +20,73 @@ const Offcanvas: React.FC<OffcanvasProps> = ({
   showBackButton = false,
   onBack,
 }) => {
+  const offcanvasRef = useRef<HTMLDivElement>(null)
+  const closeButtonRef = useRef<HTMLButtonElement>(null)
+  const previousActiveElement = useRef<HTMLElement | null>(null)
+
+  useEffect(() => {
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        onClose()
+      }
+    }
+
+    if (isOpen) {
+      // Store the currently active element before opening
+      previousActiveElement.current = document.activeElement as HTMLElement
+
+      document.addEventListener('keydown', handleEscape)
+      document.body.style.overflow = 'hidden'
+
+      // Focus the close button when opening
+      setTimeout(() => {
+        closeButtonRef.current?.focus()
+      }, 100)
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape)
+      document.body.style.overflow = 'unset'
+
+      // Restore focus to the previously active element when closing
+      if (!isOpen && previousActiveElement.current) {
+        previousActiveElement.current.focus()
+      }
+    }
+  }, [isOpen, onClose])
+
+  // Handle focus trap
+  useEffect(() => {
+    if (isOpen && offcanvasRef.current) {
+      const focusableElements = offcanvasRef.current.querySelectorAll(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      )
+      const firstElement = focusableElements[0] as HTMLElement
+      const lastElement = focusableElements[
+        focusableElements.length - 1
+      ] as HTMLElement
+
+      const handleTabKey = (e: KeyboardEvent) => {
+        if (e.key !== 'Tab') return
+
+        if (e.shiftKey) {
+          if (document.activeElement === firstElement) {
+            e.preventDefault()
+            lastElement?.focus()
+          }
+        } else {
+          if (document.activeElement === lastElement) {
+            e.preventDefault()
+            firstElement?.focus()
+          }
+        }
+      }
+
+      document.addEventListener('keydown', handleTabKey)
+      return () => document.removeEventListener('keydown', handleTabKey)
+    }
+  }, [isOpen])
+
   const handleBackdropClick = (event: React.MouseEvent) => {
     if (event.target === event.currentTarget) {
       onClose()
@@ -36,6 +104,7 @@ const Offcanvas: React.FC<OffcanvasProps> = ({
       aria-labelledby="offcanvas-title"
     >
       <div
+        ref={offcanvasRef}
         className={`bg-white h-full min-w-xl max-w-[80vw] shadow-xl flex flex-col transform transition-transform duration-300 ease-in-out ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
@@ -57,6 +126,7 @@ const Offcanvas: React.FC<OffcanvasProps> = ({
             </h3>
           </div>
           <Button
+            ref={closeButtonRef}
             onClick={onClose}
             variant="outline"
             className="border-none"
