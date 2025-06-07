@@ -51,7 +51,7 @@ export const SideMenu = ({
 
   return (
     <nav
-      className="h-screen bg-ideon-dark text-white relative flex flex-col"
+      className="h-screen bg-ideon-dark dark:bg-ideon-dark text-white relative flex flex-col dark:border-r dark:border-ideon-dark-100"
       role="navigation"
       aria-label="Main menu"
     >
@@ -85,7 +85,7 @@ export const SideMenu = ({
             {section.title && !isCollapsed && (
               <h2
                 id={`section-${index}`}
-                className="font-semibold text-sm mb-2 px-6"
+                className="font-semibold text-sm mb-2 px-6 text-gray-300 dark:text-gray-400"
               >
                 {section.title}
               </h2>
@@ -95,8 +95,8 @@ export const SideMenu = ({
                 key={item.label}
                 className={`flex items-center cursor-pointer py-3 hover:opacity-80 ${isCollapsed ? 'justify-center px-3' : 'gap-3 px-6'} ${
                   item.isActive
-                    ? 'text-ideon-primary-400 bg-ideon-dark-100 '
-                    : ''
+                    ? 'text-ideon-primary-400 bg-ideon-dark-100 dark:bg-gray-700 dark:text-ideon-primary-400'
+                    : 'text-white dark:text-gray-300'
                 }`}
                 onClick={item.onClick}
                 onKeyDown={e => handleKeyDown(e, item.onClick)}

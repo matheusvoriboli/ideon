@@ -130,13 +130,13 @@ const Offcanvas: React.FC<OffcanvasProps> = ({
     >
       <div
         ref={offcanvasRef}
-        className={`bg-white h-full min-w-xl max-w-[80vw] shadow-xl flex flex-col transform transition-all duration-500 ease-out ${
+        className={`bg-white dark:bg-ideon-dark-100 h-full min-w-xl max-w-[80vw] shadow-xl dark:shadow-gray-900/50 flex flex-col transform transition-all duration-500 ease-out ${
           isAnimating
             ? 'translate-x-0 opacity-100 scale-100'
             : 'translate-x-full opacity-0 scale-95'
         }`}
       >
-        <div className="flex justify-between items-center p-6 pb-2 border-ideon-primary-500">
+        <div className="flex justify-between items-center p-6 pb-2 border-ideon-primary-500 dark:border-gray-600">
           <div className="flex items-center gap-2">
             {showBackButton && onBack && (
               <Button
@@ -148,7 +148,10 @@ const Offcanvas: React.FC<OffcanvasProps> = ({
                 <ChevronLeft size={20} strokeWidth={1.5} />
               </Button>
             )}
-            <h3 id="offcanvas-title" className="text-lg font-semibold">
+            <h3
+              id="offcanvas-title"
+              className="text-lg font-semibold text-ideon-dark dark:text-gray-300"
+            >
               {title}
             </h3>
           </div>

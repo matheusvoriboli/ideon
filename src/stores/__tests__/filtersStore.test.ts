@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import { useFiltersStore } from '../filtersStore'
-import { defaultCoveragePeriodsFilters } from '~/utils/schemas/coveragePeriodsSchema'
+import { useFiltersStore } from '~/stores'
+import { defaultCoveragePeriodsFilters } from '~/utils'
 
 // Helper to reset the store between tests
 const resetStore = () => {

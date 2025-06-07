@@ -1,6 +1,9 @@
 import { describe, it, expect } from 'vitest'
-import { filterCoveragePeriodsData } from '../filterCoveragePeriodsData'
-import { DistributionFormat, type CoveragePeriodsFiltersForm } from '~/utils'
+import {
+  filterCoveragePeriodsData,
+  DistributionFormat,
+  type CoveragePeriodsFiltersForm,
+} from '~/utils'
 
 // Mock data for testing
 const mockTestData = [

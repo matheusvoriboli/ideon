@@ -13,8 +13,7 @@ import {
 } from 'lucide-react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { SideMenu, Header } from '~/components'
-import { Routes } from '~/utils/constants'
-import { notImplemented } from '~/utils/helpers/notifications'
+import { Routes, notImplemented } from '~/utils'
 
 const Layout = () => {
   const location = useLocation()
@@ -124,7 +123,7 @@ const Layout = () => {
   ]
 
   return (
-    <div className="min-h-screen flex">
+    <div className="min-h-screen flex bg-ideon-light dark:bg-ideon-dark">
       <aside role="navigation" aria-label="Main menu">
         <SideMenu
           sections={sideMenuSections}
@@ -134,7 +133,7 @@ const Layout = () => {
       <main className="h-screen flex flex-1 flex-col" role="main">
         <Header />
         <section
-          className="flex-1 p-6 overflow-hidden"
+          className="flex-1 p-6 overflow-hidden bg-ideon-light dark:bg-ideon-dark"
           aria-label="Main content"
         >
           <Outlet />

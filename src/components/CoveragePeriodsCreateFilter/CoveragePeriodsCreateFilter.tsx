@@ -7,7 +7,7 @@ import {
   showSuccess,
   defaultCoveragePeriodsFilters,
 } from '~/utils'
-import { useFiltersStore } from '~/stores/filtersStore'
+import { useFiltersStore } from '~/stores'
 
 interface CoveragePeriodsCreateFilterProps {
   methods: UseFormReturn<CoveragePeriodsFiltersForm>
@@ -65,7 +65,9 @@ const CoveragePeriodsCreateFilter: React.FC<
         />
 
         <div className="flex flex-col mb-2">
-          <label className="text-sm font-semibold">Distribution Format</label>
+          <label className="text-sm font-semibold text-ideon-dark dark:text-gray-300">
+            Distribution Format
+          </label>
         </div>
         <div className="flex gap-2 w-full">
           <div className="flex items-center gap-2 w-full">
@@ -111,7 +113,7 @@ const CoveragePeriodsCreateFilter: React.FC<
           <input
             type="date"
             {...register('coverageStartDate.date')}
-            className="w-full p-2 rounded-lg border border-ideon-primary-500"
+            className="w-full p-2 rounded-lg border border-ideon-primary-500 dark:border-gray-600 bg-white dark:bg-ideon-dark-100 text-ideon-dark dark:text-gray-300"
           />
         </div>
 
@@ -131,7 +133,7 @@ const CoveragePeriodsCreateFilter: React.FC<
           <input
             type="date"
             {...register('coverageEndDate.date')}
-            className="w-full p-2 rounded-lg border border-ideon-primary-500"
+            className="w-full p-2 rounded-lg border border-ideon-primary-500 dark:border-gray-600 bg-white dark:bg-ideon-dark-100 text-ideon-dark dark:text-gray-300"
           />
         </div>
 
@@ -151,7 +153,7 @@ const CoveragePeriodsCreateFilter: React.FC<
           <input
             type="date"
             {...register('setupCompletion.date')}
-            className="w-full p-2 rounded-lg border border-ideon-primary-500"
+            className="w-full p-2 rounded-lg border border-ideon-primary-500 dark:border-gray-600 bg-white dark:bg-ideon-dark-100 text-ideon-dark dark:text-gray-300"
           />
         </div>
 
@@ -181,7 +183,7 @@ const CoveragePeriodsCreateFilter: React.FC<
         </div>
       </div>
 
-      <div className="flex gap-2 pt-4 mt-auto absolute bottom-0 left-0 right-0 p-6 border-t border-ideon-primary-500">
+      <div className="flex gap-2 pt-4 mt-auto absolute bottom-0 left-0 right-0 p-6 border-t border-ideon-primary-500 dark:border-gray-600">
         <Button
           variant="outline"
           className="flex-1"

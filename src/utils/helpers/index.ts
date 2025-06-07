@@ -1,2 +1,3 @@
 export { filterCoveragePeriodsData } from './filterCoveragePeriodsData'
-export { notImplemented } from './notifications'
+export * from './notifications'
+export * from './theme'

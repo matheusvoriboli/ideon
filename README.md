@@ -1,54 +1,142 @@
-# React + TypeScript + Vite
+# Ideon
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern React application built with TypeScript, Vite, and TailwindCSS for managing coverage periods and organizational dashboards.
 
-Currently, two official plugins are available:
+## 🚀 Technologies Used
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **React 19** with **TypeScript** - Modern UI development
+- **Vite** - Fast build tool and development server
+- **TailwindCSS 4** - Utility-first CSS framework
+- **Zustand** - Lightweight state management
+- **React Hook Form + Zod** - Form handling and validation
+- **React Router DOM 7** - Client-side routing
+- **Vitest + Testing Library** - Testing framework
+- **ESLint + Prettier** - Code quality and formatting
+- **Husky** - Git hooks for code validation
 
-## Expanding the ESLint configuration
+## 📁 Project Structure
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```
+src/
+├── components/        # Reusable UI components
+│   ├── UI/           # Base UI components
+│   └── Coverage*/    # Coverage-related components
+├── pages/            # Application pages
+├── stores/           # Zustand state stores
+├── utils/            # Utility functions
+└── test/             # Test setup and utilities
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🛠️ Available Scripts
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+```bash
+# Development
+pnpm dev              # Start development server
+pnpm preview          # Preview production build
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+# Building
+pnpm build            # Build for production
+
+# Code Quality
+pnpm lint             # Run ESLint
+pnpm lint:fix         # Fix ESLint issues
+pnpm format           # Format code with Prettier
+pnpm format:check     # Check formatting
+
+# Testing
+pnpm test             # Run tests in watch mode
+pnpm test:ui          # Run tests with UI
+pnpm test:run         # Run tests once (CI mode)
+
+# Validation
+pnpm validate         # Run complete validation pipeline
 ```
+
+## 🔧 Setup & Installation
+
+```bash
+# Clone and install
+git clone [repository-url]
+cd ideon
+pnpm install
+
+# Setup git hooks
+pnpm prepare
+
+# Start development
+pnpm dev
+```
+
+## ✨ Additional Features Implemented
+
+- **Dark Mode Support** - Complete theming system with TailwindCSS dark mode utilities
+- **Enhanced Accessibility** - ARIA labels, keyboard navigation, and screen reader support
+- **Real-time Toast Notifications** - User feedback for actions and form submissions
+- **Form Validation** - Client-side validation with detailed error messages
+
+## 🚧 Challenges & Trade-offs
+
+### Implementation Challenges
+
+**Dark Mode Integration**
+
+- **Challenge**: Dark mode was implemented towards the end of development
+- **Impact**: Required extensive refactoring of existing components and color schemes
+- **Trade-off**: Would have been significantly easier to implement from the project's inception
+- **Solution**: Systematic component-by-component theme updates with TailwindCSS utilities
+
+**Accessibility Implementation**
+
+- **Challenge**: Adding accessibility features to complex interactive components
+- **Impact**: Required deep investigation into DOM interactions and ARIA specifications
+- **Solution**: Extensive testing with screen readers and keyboard navigation patterns
+
+**State Management Complexity**
+
+- **Challenge**: Managing complex filter states and form interactions
+- **Trade-off**: Chose Zustand over Redux for simpler implementation but required careful store structure design
+- **Solution**: Modular store approach with clear separation of concerns
+
+## 🪝 Git Hooks with Husky
+
+### Pre-commit Hook
+
+- Runs `pnpm test` before every commit
+
+### Pre-push Hook
+
+Comprehensive validation pipeline:
+
+1. **ESLint** - Code quality validation
+2. **Prettier** - Formatting check
+3. **Build** - TypeScript compilation
+4. **Tests** - Complete test suite
+
+#### Strict Mode
+
+```bash
+# Enable strict mode (blocks push on test failures)
+STRICT_MODE=true git push
+```
+
+#### Skip hooks (not recommended)
+
+```bash
+git commit --no-verify  # Skip pre-commit
+git push --no-verify    # Skip pre-push
+```
+
+## 🧪 Testing
+
+Uses **Vitest** with jsdom environment and Testing Library utilities for React component testing.
+
+## 📦 Package Manager
+
+This project uses **pnpm** for faster installs and better dependency management.
+
+## 🤝 Contributing
+
+1. Follow ESLint + Prettier standards
+2. Write tests for new features
+3. Ensure git hooks pass
+4. Use semantic commit messages

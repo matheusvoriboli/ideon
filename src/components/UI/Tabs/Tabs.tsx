@@ -79,7 +79,7 @@ const Tabs: React.FC<TabsProps> = ({
     <div className={`w-full ${className}`}>
       {/* Tab Headers */}
       <div
-        className="flex border-b border-gray-200"
+        className="flex border-b border-gray-200 dark:border-gray-600"
         role="tablist"
         aria-label="Tabs navigation"
       >
@@ -92,11 +92,11 @@ const Tabs: React.FC<TabsProps> = ({
             onClick={() => handleTabClick(tab.id, index)}
             onKeyDown={e => handleKeyDown(e, tab.id, index)}
             className={`
-              px-4 py-2 text-sm font-medium border-b-2 transition-colors focus:outline-none focus:ring-2 focus:ring-inset focus:ring-ideon-primary-200
+              px-4 py-2 text-sm font-medium border-b-2 transition-colors focus:outline-none focus:ring-2 focus:ring-inset focus:ring-ideon-primary-200 dark:focus:ring-ideon-primary-400
               ${
                 activeTab === tab.id
-                  ? 'text-ideon-primary-300 font-semibold border-ideon-primary-300'
-                  : 'text-gray-500 border-transparent hover:text-ideon-primary-200'
+                  ? 'text-ideon-primary-300 dark:text-ideon-primary-400 font-semibold border-ideon-primary-300 dark:border-ideon-primary-400'
+                  : 'text-gray-500 dark:text-gray-400 border-transparent hover:text-ideon-primary-200 dark:hover:text-ideon-primary-400'
               }
             `}
             role="tab"

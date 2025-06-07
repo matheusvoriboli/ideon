@@ -1,7 +1,7 @@
 import { Copy, SearchX } from 'lucide-react'
 import { useMemo, useEffect } from 'react'
 import { Pagination, Table } from '~/components'
-import { useFiltersStore } from '~/stores/filtersStore'
+import { useFiltersStore } from '~/stores'
 import {
   useTable,
   mockData,
@@ -125,7 +125,7 @@ const CoveragePeriodsTable = () => {
                     <Table.Cell>
                       <button
                         type="button"
-                        className="flex items-center gap-3 text-ideon-primary-300 font-semibold hover:underline focus:outline-none focus:ring-2 focus:ring-ideon-primary-200 rounded p-1"
+                        className="flex items-center gap-3 text-ideon-primary-300 dark:text-ideon-primary-400 font-semibold hover:underline focus:outline-none focus:ring-2 focus:ring-ideon-primary-200 dark:focus:ring-ideon-primary-400 rounded p-1"
                         onClick={() => handleCopyUUID(item.uuid)}
                         aria-label={`Copy UUID ${item.uuid}`}
                       >
@@ -142,7 +142,7 @@ const CoveragePeriodsTable = () => {
               </Table.Body>
             </Table>
           </div>
-          <div className="pt-4 bg-white">
+          <div className="pt-4 bg-white dark:bg-ideon-dark-100">
             <Pagination
               currentPage={currentPage}
               totalPages={totalPages}
@@ -155,13 +155,19 @@ const CoveragePeriodsTable = () => {
         </>
       ) : (
         <div
-          className="flex-1 flex flex-col items-center gap-2 mt-30"
+          className="flex-1 flex flex-col items-center gap-2 mt-30 text-ideon-dark dark:text-gray-300"
           role="status"
           aria-live="polite"
         >
-          <SearchX size={36} aria-hidden="true" />
+          <SearchX
+            size={36}
+            className="text-gray-400 dark:text-gray-500"
+            aria-hidden="true"
+          />
           <h2 className="text-xl">No results found</h2>
-          <p className="text-gray-400">Adjust your filters and try again</p>
+          <p className="text-gray-400 dark:text-gray-500">
+            Adjust your filters and try again
+          </p>
         </div>
       )}
     </div>

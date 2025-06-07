@@ -169,7 +169,10 @@ const Dropdown: React.FC<DropdownProps> = ({
   return (
     <div className={`flex flex-col gap-2 ${className}`} ref={dropdownRef}>
       {label && (
-        <label className="text-sm font-semibold" id={`${ariaLabel}-label`}>
+        <label
+          className="text-sm font-semibold text-ideon-dark dark:text-gray-400"
+          id={`${ariaLabel}-label`}
+        >
           {label}
         </label>
       )}
@@ -181,9 +184,9 @@ const Dropdown: React.FC<DropdownProps> = ({
           onClick={() => !disabled && setIsOpen(!isOpen)}
           onKeyDown={handleKeyDown}
           className={`
-            w-full h-[40px] px-3 py-2 bg-white border border-ideon-primary-500 rounded-lg cursor-pointer
+            w-full h-[40px] px-3 py-2 bg-white dark:bg-ideon-dark-100 border border-ideon-primary-500 dark:border-gray-600 rounded-lg cursor-pointer
             flex items-center justify-between gap-2 focus:outline-none focus-visible:shadow-[inset_0_0_0_2px_rgb(34_197_94)]
-            ${disabled && 'bg-gray-50 cursor-not-allowed'}
+            ${disabled && 'bg-gray-50 dark:bg-gray-800 cursor-not-allowed'}
           `}
           role="combobox"
           aria-expanded={isOpen}
@@ -197,7 +200,9 @@ const Dropdown: React.FC<DropdownProps> = ({
             {multiple ? (
               // Multiple selection display
               selectedOptions.length === 0 ? (
-                <span className="text-gray-500 text-sm">{placeholder}</span>
+                <span className="text-gray-500 dark:text-gray-400 text-sm">
+                  {placeholder}
+                </span>
               ) : (
                 <>
                   <div className="flex items-center gap-1 overflow-hidden">
@@ -216,24 +221,26 @@ const Dropdown: React.FC<DropdownProps> = ({
                     ))}
                   </div>
                   {selectedOptions.length > 2 && (
-                    <span className="text-gray-500 text-xs ml-1 whitespace-nowrap">
+                    <span className="text-gray-500 dark:text-gray-400 text-xs ml-1 whitespace-nowrap">
                       +{selectedOptions.length - 2} mais
                     </span>
                   )}
                 </>
               )
             ) : singleSelectedOption ? (
-              <span className="text-gray-900 text-sm truncate">
+              <span className="text-gray-900 dark:text-gray-300 text-sm truncate">
                 {singleSelectedOption.label}
               </span>
             ) : (
-              <span className="text-gray-500 text-sm">{placeholder}</span>
+              <span className="text-gray-500 dark:text-gray-400 text-sm">
+                {placeholder}
+              </span>
             )}
           </div>
 
           <ChevronDown
             size={16}
-            className={`text-gray-500 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+            className={`text-gray-500 dark:text-gray-400 transition-transform ${isOpen ? 'rotate-180' : ''}`}
             aria-hidden="true"
           />
         </div>
@@ -243,7 +250,7 @@ const Dropdown: React.FC<DropdownProps> = ({
           <div
             ref={listRef}
             className={`
-            absolute left-0 right-0 bg-white border border-ideon-primary-500 rounded-lg shadow-lg z-50 max-h-60 overflow-hidden
+            absolute left-0 right-0 bg-white dark:bg-ideon-dark-100 border border-ideon-primary-500 dark:border-gray-600 rounded-lg shadow-lg dark:shadow-gray-900/50 z-50 max-h-60 overflow-hidden
             ${openUpward ? 'bottom-full mb-1' : 'top-full mt-1'}
           `}
             role="listbox"
@@ -263,7 +270,10 @@ const Dropdown: React.FC<DropdownProps> = ({
 
             <div className="max-h-40 overflow-y-auto">
               {filteredOptions.length === 0 ? (
-                <div className="px-3 py-2 text-sm text-gray-500" role="option">
+                <div
+                  className="px-3 py-2 text-sm text-gray-500 dark:text-gray-400"
+                  role="option"
+                >
                   No options found
                 </div>
               ) : (
@@ -281,9 +291,9 @@ const Dropdown: React.FC<DropdownProps> = ({
                       }
                       className={`
                         px-3 py-2 text-sm flex items-center gap-2
-                        ${multiple ? '' : 'cursor-pointer hover:bg-gray-50'}
-                        ${isSelected && !multiple ? 'bg-ideon-light text-ideon-primary-300 font-bold' : 'text-gray-900'}
-                        ${isFocused ? 'bg-gray-100' : ''}
+                        ${multiple ? '' : 'cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700'}
+                        ${isSelected && !multiple ? 'bg-ideon-light dark:bg-ideon-primary-300 text-ideon-primary-300 dark:text-white font-bold' : 'text-gray-900 dark:text-gray-300'}
+                        ${isFocused ? 'bg-gray-100 dark:bg-gray-700' : ''}
                       `}
                       role="option"
                       aria-selected={isSelected}
@@ -293,12 +303,12 @@ const Dropdown: React.FC<DropdownProps> = ({
                         // Visual checkbox for multiple selection
                         <div
                           onClick={() => handleSelect(option.value)}
-                          className="cursor-pointer hover:bg-gray-50 rounded flex items-center gap-2 flex-1 -mx-3 px-3 py-1"
+                          className="cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 rounded flex items-center gap-2 flex-1 -mx-3 px-3 py-1"
                         >
                           <div
                             className={`
                               w-6 h-6 border-2 rounded flex items-center justify-center
-                              ${isSelected ? 'bg-ideon-primary-200 border-ideon-primary-200' : 'border-ideon-primary-500'}
+                              ${isSelected ? 'bg-ideon-primary-200 dark:bg-ideon-primary-400 border-ideon-primary-200 dark:border-ideon-primary-400' : 'border-ideon-primary-500 dark:border-gray-600'}
                             `}
                             role="checkbox"
                             aria-checked={isSelected}
