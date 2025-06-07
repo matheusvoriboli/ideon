@@ -1,6 +1,6 @@
 import { Bell } from 'lucide-react'
 import { useLocation } from 'react-router-dom'
-import { Routes, routeLabels } from '~/utils'
+import { Routes, notImplemented, routeLabels } from '~/utils'
 import { ThemeToggle } from '~/components'
 
 const Header: React.FC = () => {
@@ -29,6 +29,7 @@ const Header: React.FC = () => {
               type="button"
               aria-label="Notificações"
               className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 focus:ring-2 focus:ring-ideon-primary-200 text-gray-600 dark:text-gray-50"
+              onClick={() => notImplemented('Notifications')}
             >
               <Bell />
             </button>

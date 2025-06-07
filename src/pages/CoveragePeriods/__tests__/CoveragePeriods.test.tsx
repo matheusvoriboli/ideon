@@ -16,11 +16,14 @@ const mockFiltersStore = {
     carrier: undefined,
     state: undefined,
   },
+  searchTerm: '',
   setCurrentStep: vi.fn(),
   removeSpecificFilter: vi.fn(),
   resetActiveFilters: vi.fn(),
   getDefaultFilter: vi.fn(() => null),
   applyFilter: vi.fn(),
+  setSearchTerm: vi.fn(),
+  resetSearchTerm: vi.fn(),
 }
 
 // Hook Form Mock

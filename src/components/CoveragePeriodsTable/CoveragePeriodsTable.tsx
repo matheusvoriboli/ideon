@@ -11,7 +11,7 @@ import {
 } from '~/utils'
 
 const CoveragePeriodsTable = () => {
-  const { activeFilters } = useFiltersStore()
+  const { activeFilters, searchTerm } = useFiltersStore()
 
   // Filter data based on activeFilters using the helper function
   const filteredData = useMemo(() => {
@@ -34,6 +34,7 @@ const CoveragePeriodsTable = () => {
     data: filteredData,
     searchFields: ['organizationName', 'carrier', 'account', 'uuid'],
     initialItemsPerPage: 10,
+    externalSearchTerm: searchTerm,
   })
 
   // Reset to first page when filters change
@@ -125,7 +126,7 @@ const CoveragePeriodsTable = () => {
                     <Table.Cell>
                       <button
                         type="button"
-                        className="flex items-center gap-3 text-ideon-primary-300 dark:text-ideon-primary-400 font-semibold hover:underline focus:outline-none focus:ring-2 focus:ring-ideon-primary-200 dark:focus:ring-ideon-primary-400 rounded p-1"
+                        className="flex items-center gap-3 text-ideon-primary-300 dark:text-ideon-primary-400 font-semibold hover:underline focus:outline-none focus:ring-2 focus:ring-ideon-primary-200 dark:focus:ring-ideon-primary-400 rounded p-1 cursor-pointer"
                         onClick={() => handleCopyUUID(item.uuid)}
                         aria-label={`Copy UUID ${item.uuid}`}
                       >

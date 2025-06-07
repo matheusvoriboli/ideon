@@ -42,8 +42,12 @@ const Checkbox: React.FC<CheckboxProps> = ({
       <label
         htmlFor={checkboxId}
         className={`
-          w-6 h-6 border-2 rounded flex items-center justify-center cursor-pointer bg-white dark:bg-ideon-dark-100
-                      ${checked ? 'bg-ideon-primary-200 dark:bg-ideon-primary-400 border-ideon-primary-200 dark:border-ideon-primary-400' : 'border-ideon-primary-500 dark:border-gray-600'}
+          w-6 h-6 border-2 rounded flex items-center justify-center cursor-pointer
+          ${
+            checked
+              ? 'bg-ideon-primary-200 dark:bg-ideon-primary-400 border-ideon-primary-200 dark:border-ideon-primary-400'
+              : 'bg-white dark:bg-ideon-dark-100 border-ideon-primary-500 dark:border-gray-600'
+          }
           ${disabled && 'opacity-50 cursor-not-allowed'}
           focus-within:ring-2 focus-within:ring-ideon-primary-200 dark:focus-within:ring-ideon-primary-400 focus-within:ring-opacity-50
           ${className}

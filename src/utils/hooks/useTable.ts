@@ -1,32 +1,28 @@
-import { useState, useMemo, useCallback } from 'react'
+import { useState, useMemo, useCallback, useEffect } from 'react'
 
 interface UseTableProps<T> {
   data: T[]
   searchFields: (keyof T)[]
   initialItemsPerPage?: number
   initialPage?: number
+  externalSearchTerm?: string
 }
 
 interface UseTableReturn<T> {
   // State
   currentPage: number
   itemsPerPage: number
-  searchTerm: string
   sortColumn: keyof T | null
   sortDirection: 'asc' | 'desc'
 
   // Computed values
-  filteredData: T[]
   currentData: T[]
   totalItems: number
   totalPages: number
-  startItem: number
-  endItem: number
 
   // Handlers
   handlePageChange: (page: number) => void
   handleItemsPerPageChange: (newItemsPerPage: number) => void
-  handleSearchChange: (value: string) => void
   handleSort: (column: keyof T) => void
   resetToFirstPage: () => void
 }
@@ -36,30 +32,42 @@ export const useTable = <T extends Record<string, string | number>>({
   searchFields,
   initialItemsPerPage = 10,
   initialPage = 1,
+  externalSearchTerm = '',
 }: UseTableProps<T>): UseTableReturn<T> => {
   const [currentPage, setCurrentPage] = useState(initialPage)
   const [itemsPerPage, setItemsPerPage] = useState(initialItemsPerPage)
-  const [searchTerm, setSearchTerm] = useState('')
   const [sortColumn, setSortColumn] = useState<keyof T | null>(null)
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc')
 
+  // Use external search term
+  const effectiveSearchTerm = externalSearchTerm
+
+  // Reset to first page when external search term changes
+  useEffect(() => {
+    if (externalSearchTerm !== '') {
+      setCurrentPage(1)
+    }
+  }, [externalSearchTerm])
+
   // Memoized filtered data based on search term
   const filteredData = useMemo(() => {
-    if (!searchTerm.trim()) return data
+    if (!effectiveSearchTerm.trim()) return data
 
     return data.filter(item =>
       searchFields.some(field => {
         const fieldValue = item[field]
         if (typeof fieldValue === 'string') {
-          return fieldValue.toLowerCase().includes(searchTerm.toLowerCase())
+          return fieldValue
+            .toLowerCase()
+            .includes(effectiveSearchTerm.toLowerCase())
         }
         if (typeof fieldValue === 'number') {
-          return fieldValue.toString().includes(searchTerm)
+          return fieldValue.toString().includes(effectiveSearchTerm)
         }
         return false
       })
     )
-  }, [data, searchFields, searchTerm])
+  }, [data, searchFields, effectiveSearchTerm])
 
   // Memoized sorted data
   const sortedData = useMemo(() => {
@@ -119,11 +127,6 @@ export const useTable = <T extends Record<string, string | number>>({
     setCurrentPage(1) // Reset to first page when changing items per page
   }
 
-  const handleSearchChange = (value: string) => {
-    setSearchTerm(value)
-    setCurrentPage(1) // Reset to first page when searching
-  }
-
   const handleSort = (column: keyof T) => {
     if (sortColumn === column) {
       // Toggle direction if same column
@@ -143,20 +146,15 @@ export const useTable = <T extends Record<string, string | number>>({
   return {
     currentPage,
     itemsPerPage,
-    searchTerm,
     sortColumn,
     sortDirection,
 
-    filteredData: sortedData,
     currentData: paginationData.currentData,
     totalItems: paginationData.totalItems,
     totalPages: paginationData.totalPages,
-    startItem: paginationData.startItem,
-    endItem: paginationData.endItem,
 
     handlePageChange,
     handleItemsPerPageChange,
-    handleSearchChange,
     handleSort,
     resetToFirstPage,
   }

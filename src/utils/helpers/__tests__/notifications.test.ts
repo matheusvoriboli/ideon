@@ -2,7 +2,6 @@ import { describe, it, expect, beforeEach, vi } from 'vitest'
 import toast from 'react-hot-toast'
 import { showSuccess, showError, notImplemented } from '~/utils'
 
-// Mock react-hot-toast
 vi.mock('react-hot-toast', () => ({
   default: {
     success: vi.fn(),

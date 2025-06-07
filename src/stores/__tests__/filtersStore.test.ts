@@ -5,7 +5,12 @@ import { defaultCoveragePeriodsFilters } from '~/utils'
 // Helper to reset the store between tests
 const resetStore = () => {
   useFiltersStore.getState().resetActiveFilters()
-  useFiltersStore.getState().setSavedFilters([])
+  useFiltersStore.getState().resetSearchTerm()
+  // Clear saved filters by removing them one by one
+  const savedFilters = useFiltersStore.getState().savedFilters
+  savedFilters.forEach(filter => {
+    useFiltersStore.getState().removeSavedFilter(filter.id)
+  })
 }
 
 describe('FiltersStore', () => {
@@ -36,6 +41,12 @@ describe('FiltersStore', () => {
       const store = useFiltersStore.getState()
 
       expect(store.filterToSave).toBeNull()
+    })
+
+    it('should have searchTerm as empty string', () => {
+      const store = useFiltersStore.getState()
+
+      expect(store.searchTerm).toBe('')
     })
   })
 
@@ -85,6 +96,24 @@ describe('FiltersStore', () => {
         defaultCoveragePeriodsFilters.organization
       )
       expect(updatedFilters.group).toBe('Test Group') // Other filters kept
+    })
+  })
+
+  describe('Search term management', () => {
+    it('should set search term', () => {
+      useFiltersStore.getState().setSearchTerm('test search')
+
+      expect(useFiltersStore.getState().searchTerm).toBe('test search')
+    })
+
+    it('should reset search term', () => {
+      // First set a search term
+      useFiltersStore.getState().setSearchTerm('test search')
+
+      // Then reset
+      useFiltersStore.getState().resetSearchTerm()
+
+      expect(useFiltersStore.getState().searchTerm).toBe('')
     })
   })
 

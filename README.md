@@ -71,6 +71,7 @@ pnpm dev
 
 - **Dark Mode Support** - Complete theming system with TailwindCSS dark mode utilities
 - **Enhanced Accessibility** - ARIA labels, keyboard navigation, and screen reader support
+- **Real-time Search** - Global search functionality across organization names, carriers, accounts, and UUIDs
 - **Real-time Toast Notifications** - User feedback for actions and form submissions
 - **Form Validation** - Client-side validation with detailed error messages
 

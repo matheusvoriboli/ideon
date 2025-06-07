@@ -10,11 +10,11 @@ interface FiltersState {
   savedFilters: SavedFilter[]
 
   activeFilters: CoveragePeriodsFiltersForm
+  searchTerm: string
 
   currentStep: 'filters' | 'saved-filters' | 'name-filter'
   filterToSave: CoveragePeriodsFiltersForm | null
 
-  setSavedFilters: (filters: SavedFilter[]) => void
   addSavedFilter: (
     name: string,
     filters: CoveragePeriodsFiltersForm,
@@ -26,6 +26,9 @@ interface FiltersState {
   setActiveFilters: (filters: CoveragePeriodsFiltersForm) => void
   resetActiveFilters: () => void
   removeSpecificFilter: (filterKey: keyof CoveragePeriodsFiltersForm) => void
+
+  setSearchTerm: (term: string) => void
+  resetSearchTerm: () => void
 
   setCurrentStep: (step: 'filters' | 'saved-filters' | 'name-filter') => void
   startSavingFilter: (filters: CoveragePeriodsFiltersForm) => void
@@ -40,10 +43,9 @@ export const useFiltersStore = create<FiltersState>()(
     (set, get) => ({
       savedFilters: [],
       activeFilters: defaultCoveragePeriodsFilters,
+      searchTerm: '',
       currentStep: 'filters',
       filterToSave: null,
-
-      setSavedFilters: filters => set({ savedFilters: filters }),
 
       addSavedFilter: (name, filters, isDefault = false) => {
         const newFilter: SavedFilter = {
@@ -88,7 +90,7 @@ export const useFiltersStore = create<FiltersState>()(
 
       removeSpecificFilter: filterKey => {
         set(state => {
-          // Simplesmente reseta o filtro específico para o valor padrão
+          // Reset the filters to a default value
           const newFilters = {
             ...state.activeFilters,
             [filterKey]: defaultCoveragePeriodsFilters[filterKey],
@@ -97,6 +99,10 @@ export const useFiltersStore = create<FiltersState>()(
           return { activeFilters: newFilters }
         })
       },
+
+      setSearchTerm: term => set({ searchTerm: term }),
+
+      resetSearchTerm: () => set({ searchTerm: '' }),
 
       setCurrentStep: step => set({ currentStep: step }),
 
