@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Dropdown } from '~/components'
+import Dropdown from '../Dropdown'
 
 interface MockInputProps {
   value: string
