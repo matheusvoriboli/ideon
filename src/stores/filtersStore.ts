@@ -15,7 +15,6 @@ interface FiltersState {
   currentStep: 'filters' | 'saved-filters' | 'name-filter'
   filterToSave: CoveragePeriodsFiltersForm | null
 
-  setSavedFilters: (filters: SavedFilter[]) => void
   addSavedFilter: (
     name: string,
     filters: CoveragePeriodsFiltersForm,
@@ -47,8 +46,6 @@ export const useFiltersStore = create<FiltersState>()(
       searchTerm: '',
       currentStep: 'filters',
       filterToSave: null,
-
-      setSavedFilters: filters => set({ savedFilters: filters }),
 
       addSavedFilter: (name, filters, isDefault = false) => {
         const newFilter: SavedFilter = {

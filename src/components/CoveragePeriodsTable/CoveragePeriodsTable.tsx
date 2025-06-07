@@ -28,19 +28,14 @@ const CoveragePeriodsTable = () => {
     sortDirection,
     handlePageChange,
     handleItemsPerPageChange,
-    handleSearchChange,
     handleSort,
     resetToFirstPage,
   } = useTable({
     data: filteredData,
     searchFields: ['organizationName', 'carrier', 'account', 'uuid'],
     initialItemsPerPage: 10,
+    externalSearchTerm: searchTerm,
   })
-
-  // Sync external search term with useTable internal search
-  useEffect(() => {
-    handleSearchChange(searchTerm)
-  }, [searchTerm, handleSearchChange])
 
   // Reset to first page when filters change
   useEffect(() => {

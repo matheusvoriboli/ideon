@@ -5,8 +5,12 @@ import { defaultCoveragePeriodsFilters } from '~/utils'
 // Helper to reset the store between tests
 const resetStore = () => {
   useFiltersStore.getState().resetActiveFilters()
-  useFiltersStore.getState().setSavedFilters([])
   useFiltersStore.getState().resetSearchTerm()
+  // Clear saved filters by removing them one by one
+  const savedFilters = useFiltersStore.getState().savedFilters
+  savedFilters.forEach(filter => {
+    useFiltersStore.getState().removeSavedFilter(filter.id)
+  })
 }
 
 describe('FiltersStore', () => {
