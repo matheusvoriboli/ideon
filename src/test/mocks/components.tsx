@@ -1,6 +1,5 @@
 import { vi } from 'vitest'
 
-// CoveragePeriodsFilterOffcanvas mock
 export const CoveragePeriodsFilterOffcanvas = vi.fn(({ isOpen, onClose }) => (
   <div data-testid="coverage-periods-filter-offcanvas">
     {isOpen && (
@@ -13,12 +12,10 @@ export const CoveragePeriodsFilterOffcanvas = vi.fn(({ isOpen, onClose }) => (
   </div>
 ))
 
-// CoveragePeriodsTable mock
 export const CoveragePeriodsTable = vi.fn(() => (
   <div>Coverage Periods Table</div>
 ))
 
-// CoveragePeriodsActiveTags mock
 export const CoveragePeriodsActiveTags = vi.fn(
   ({ activeFilters, onRemoveFilter }) => (
     <div data-testid="coverage-periods-active-tags">
@@ -40,7 +37,6 @@ export const CoveragePeriodsActiveTags = vi.fn(
   )
 )
 
-// Button mock
 export const Button = vi.fn(
   ({ children, onClick, variant, className, ...props }) => (
     <button
@@ -54,7 +50,6 @@ export const Button = vi.fn(
   )
 )
 
-// Input mock
 export const Input = vi.fn(
   ({ value, onChange, placeholder, icon, ...props }) => (
     <div data-testid="input-container">

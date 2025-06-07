@@ -5,7 +5,6 @@ import {
   type CoveragePeriodsFiltersForm,
 } from '~/utils'
 
-// Mock data for testing
 const mockTestData = [
   {
     uuid: 'test1',

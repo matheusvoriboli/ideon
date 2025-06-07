@@ -93,7 +93,7 @@ export const useFiltersStore = create<FiltersState>()(
 
       removeSpecificFilter: filterKey => {
         set(state => {
-          // Simplesmente reseta o filtro específico para o valor padrão
+          // Reset the filters to a default value
           const newFilters = {
             ...state.activeFilters,
             [filterKey]: defaultCoveragePeriodsFilters[filterKey],

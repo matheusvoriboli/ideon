@@ -131,7 +131,7 @@ const CoveragePeriodsTable = () => {
                     <Table.Cell>
                       <button
                         type="button"
-                        className="flex items-center gap-3 text-ideon-primary-300 dark:text-ideon-primary-400 font-semibold hover:underline focus:outline-none focus:ring-2 focus:ring-ideon-primary-200 dark:focus:ring-ideon-primary-400 rounded p-1"
+                        className="flex items-center gap-3 text-ideon-primary-300 dark:text-ideon-primary-400 font-semibold hover:underline focus:outline-none focus:ring-2 focus:ring-ideon-primary-200 dark:focus:ring-ideon-primary-400 rounded p-1 cursor-pointer"
                         onClick={() => handleCopyUUID(item.uuid)}
                         aria-label={`Copy UUID ${item.uuid}`}
                       >
