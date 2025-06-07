@@ -11,7 +11,7 @@ import {
 } from '~/utils'
 
 const CoveragePeriodsTable = () => {
-  const { activeFilters } = useFiltersStore()
+  const { activeFilters, searchTerm } = useFiltersStore()
 
   // Filter data based on activeFilters using the helper function
   const filteredData = useMemo(() => {
@@ -28,6 +28,7 @@ const CoveragePeriodsTable = () => {
     sortDirection,
     handlePageChange,
     handleItemsPerPageChange,
+    handleSearchChange,
     handleSort,
     resetToFirstPage,
   } = useTable({
@@ -35,6 +36,11 @@ const CoveragePeriodsTable = () => {
     searchFields: ['organizationName', 'carrier', 'account', 'uuid'],
     initialItemsPerPage: 10,
   })
+
+  // Sync external search term with useTable internal search
+  useEffect(() => {
+    handleSearchChange(searchTerm)
+  }, [searchTerm, handleSearchChange])
 
   // Reset to first page when filters change
   useEffect(() => {

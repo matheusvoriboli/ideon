@@ -25,11 +25,14 @@ const CoveragePeriods: React.FC = () => {
 
   const {
     activeFilters,
+    searchTerm,
     setCurrentStep,
     removeSpecificFilter,
     resetActiveFilters,
     getDefaultFilter,
     applyFilter,
+    setSearchTerm,
+    resetSearchTerm,
   } = useFiltersStore()
 
   const methods = useForm<CoveragePeriodsFiltersForm>({
@@ -64,6 +67,17 @@ const CoveragePeriods: React.FC = () => {
     }
   }, [activeFilters, methods])
 
+  // Sync searchValue with store
+  useEffect(() => {
+    setSearchValue(searchTerm)
+  }, [searchTerm])
+
+  // Handle search input changes
+  const handleSearchChange = (value: string) => {
+    setSearchValue(value)
+    setSearchTerm(value)
+  }
+
   const handleOpenOffcanvas = () => {
     setCurrentStep('filters')
     setIsOffcanvasOpen(true)
@@ -81,6 +95,7 @@ const CoveragePeriods: React.FC = () => {
   const handleResetFilters = () => {
     methods.reset(defaultCoveragePeriodsFilters)
     resetActiveFilters()
+    resetSearchTerm()
     showSuccess('Filters reset successfully')
   }
 
@@ -122,7 +137,7 @@ const CoveragePeriods: React.FC = () => {
             </Button>
             <Input
               value={searchValue}
-              onChange={value => setSearchValue(value)}
+              onChange={handleSearchChange}
               placeholder="Search"
               icon={<Search size={16} />}
               data-testid="search-input"

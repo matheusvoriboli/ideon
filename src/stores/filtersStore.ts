@@ -10,6 +10,7 @@ interface FiltersState {
   savedFilters: SavedFilter[]
 
   activeFilters: CoveragePeriodsFiltersForm
+  searchTerm: string
 
   currentStep: 'filters' | 'saved-filters' | 'name-filter'
   filterToSave: CoveragePeriodsFiltersForm | null
@@ -27,6 +28,9 @@ interface FiltersState {
   resetActiveFilters: () => void
   removeSpecificFilter: (filterKey: keyof CoveragePeriodsFiltersForm) => void
 
+  setSearchTerm: (term: string) => void
+  resetSearchTerm: () => void
+
   setCurrentStep: (step: 'filters' | 'saved-filters' | 'name-filter') => void
   startSavingFilter: (filters: CoveragePeriodsFiltersForm) => void
   cancelSavingFilter: () => void
@@ -40,6 +44,7 @@ export const useFiltersStore = create<FiltersState>()(
     (set, get) => ({
       savedFilters: [],
       activeFilters: defaultCoveragePeriodsFilters,
+      searchTerm: '',
       currentStep: 'filters',
       filterToSave: null,
 
@@ -97,6 +102,10 @@ export const useFiltersStore = create<FiltersState>()(
           return { activeFilters: newFilters }
         })
       },
+
+      setSearchTerm: term => set({ searchTerm: term }),
+
+      resetSearchTerm: () => set({ searchTerm: '' }),
 
       setCurrentStep: step => set({ currentStep: step }),
 
