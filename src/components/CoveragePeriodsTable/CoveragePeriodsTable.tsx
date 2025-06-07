@@ -1,13 +1,13 @@
 import { Copy, SearchX } from 'lucide-react'
-import { useMemo } from 'react'
+import { useMemo, useEffect } from 'react'
 import { Pagination, Table } from '~/components'
 import { useFiltersStore } from '~/stores/filtersStore'
 import {
   useTable,
   mockData,
   filterCoveragePeriodsData,
-  showSuccess,
   showError,
+  showSuccess,
 } from '~/utils'
 
 const CoveragePeriodsTable = () => {
@@ -29,11 +29,17 @@ const CoveragePeriodsTable = () => {
     handlePageChange,
     handleItemsPerPageChange,
     handleSort,
+    resetToFirstPage,
   } = useTable({
     data: filteredData,
     searchFields: ['organizationName', 'carrier', 'account', 'uuid'],
     initialItemsPerPage: 10,
   })
+
+  // Reset to first page when filters change
+  useEffect(() => {
+    resetToFirstPage()
+  }, [activeFilters, resetToFirstPage])
 
   const handleCopyUUID = async (uuid: string) => {
     try {

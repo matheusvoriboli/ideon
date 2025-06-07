@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useCallback } from 'react'
 
 interface UseTableProps<T> {
   data: T[]
@@ -135,10 +135,10 @@ export const useTable = <T extends Record<string, string | number>>({
     }
     setCurrentPage(1) // Reset to first page when sorting
   }
-
-  const resetToFirstPage = () => {
+  // Need the useCallback here to avoid rerenderings when filtering the table
+  const resetToFirstPage = useCallback(() => {
     setCurrentPage(1)
-  }
+  }, [])
 
   return {
     currentPage,
