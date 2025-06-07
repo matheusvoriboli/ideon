@@ -58,17 +58,23 @@ const Pagination: React.FC<PaginationProps> = ({
 
   return (
     <nav
-      className="flex items-center justify-end gap-4 px-4 py-3 bg-white border-ideon-primary-500"
+      className="flex items-center justify-end gap-4 px-4 py-3 bg-white dark:bg-ideon-dark-100 border-ideon-primary-500 dark:border-gray-600"
       aria-label="Pagination navigation"
     >
       <div className="flex items-center gap-4">
-        <div className="text-sm text-gray-400" role="status" aria-live="polite">
+        <div
+          className="text-sm text-gray-400 dark:text-gray-500"
+          role="status"
+          aria-live="polite"
+        >
           Showing {startItem} to {endItem} of {totalItems} results
         </div>
 
         {showItemsPerPage && onItemsPerPageChange && (
           <div className="flex items-center gap-2">
-            <span className="text-sm">Show:</span>
+            <span className="text-sm text-ideon-dark dark:text-gray-300">
+              Show:
+            </span>
             <Dropdown
               value={itemsPerPage}
               options={[
@@ -110,7 +116,10 @@ const Pagination: React.FC<PaginationProps> = ({
           {visiblePages.map((page, index) => (
             <React.Fragment key={index}>
               {page === '...' ? (
-                <span className="px-3 py-1" aria-hidden="true">
+                <span
+                  className="px-3 py-1 text-gray-400 dark:text-gray-500"
+                  aria-hidden="true"
+                >
                   ...
                 </span>
               ) : (
@@ -119,8 +128,8 @@ const Pagination: React.FC<PaginationProps> = ({
                   onClick={() => onPageChange(page as number)}
                   className={`px-2 py-1 text-sm rounded transition-colors cursor-pointer ${
                     currentPage === page
-                      ? 'text-ideon-primary-300 font-bold underline'
-                      : 'text-gray-700'
+                      ? 'text-ideon-primary-300 dark:text-ideon-primary-400 font-bold underline'
+                      : 'text-gray-700 dark:text-gray-400 hover:text-ideon-primary-300 dark:hover:text-ideon-primary-400'
                   }`}
                   aria-label={`Go to page ${page}`}
                   aria-current={currentPage === page ? 'page' : undefined}

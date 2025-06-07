@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Button, Input, Checkbox } from '~/index'
-import { useFiltersStore } from '~/stores/filtersStore'
+import { useFiltersStore } from '~/stores'
 import { UseFormReturn } from 'react-hook-form'
 import { CoveragePeriodsFiltersForm, showSuccess } from '~/utils'
 
@@ -42,15 +42,17 @@ const CoveragePeriodsNameFilter: React.FC<{
             <Checkbox checked={isDefault} onChange={setIsDefault} />
           </div>
           <div className="flex flex-col gap-2">
-            <label className="text-sm">Set as default filter</label>
-            <span className="text-xs text-gray-600">
+            <label className="text-sm text-ideon-dark dark:text-gray-300">
+              Set as default filter
+            </label>
+            <span className="text-xs text-gray-600 dark:text-gray-400">
               This filter will be applied by default when you visit this page
             </span>
           </div>
         </div>
       </div>
 
-      <div className="pt-4 border-t border-ideon-primary-500">
+      <div className="pt-4 border-t border-ideon-primary-500 dark:border-gray-600">
         <Button
           className="w-full"
           onClick={handleSave}

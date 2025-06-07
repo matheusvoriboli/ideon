@@ -55,10 +55,10 @@ const RadioButton: React.FC<RadioButtonProps> = ({
         <div
           onClick={handleDivClick}
           className={`
-            w-6 h-6 border-2 rounded-full flex items-center justify-center cursor-pointer
-            peer-checked:bg-ideon-primary-200 peer-checked:border-ideon-primary-200
-            peer-focus:ring-2 peer-focus:ring-ideon-primary-200 peer-focus:ring-offset-1
-            ${!checked && 'border-ideon-primary-500'}
+            w-6 h-6 border-2 rounded-full flex items-center justify-center cursor-pointer bg-white dark:bg-ideon-dark-100
+            peer-checked:bg-ideon-primary-200 dark:peer-checked:bg-ideon-primary-400 peer-checked:border-ideon-primary-200 dark:peer-checked:border-ideon-primary-400
+            peer-focus:ring-2 peer-focus:ring-ideon-primary-200 dark:peer-focus:ring-ideon-primary-400 peer-focus:ring-offset-1
+            ${!checked && 'border-ideon-primary-500 dark:border-gray-600'}
             ${disabled && 'opacity-50 cursor-not-allowed'}
             ${className}
           `}
@@ -69,7 +69,7 @@ const RadioButton: React.FC<RadioButtonProps> = ({
       {label && (
         <label
           htmlFor={inputId}
-          className={`cursor-pointer ${disabled && 'opacity-50 cursor-not-allowed'}`}
+          className={`cursor-pointer text-ideon-dark dark:text-gray-300 ${disabled && 'opacity-50 cursor-not-allowed'}`}
         >
           {label}
         </label>

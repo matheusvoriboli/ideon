@@ -5,8 +5,8 @@ import {
   defaultCoveragePeriodsFilters,
   type CoveragePeriodsFiltersForm,
   type SavedFilter,
-} from '../coveragePeriodsSchema'
-import { DistributionFormat } from '~/utils'
+  DistributionFormat,
+} from '~/utils'
 
 describe('coveragePeriodsSchema', () => {
   describe('coveragePeriodsFiltersSchema', () => {

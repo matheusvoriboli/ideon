@@ -1,6 +1,6 @@
 import type { UseFormReturn } from 'react-hook-form'
 import { Button, Tag } from '~/index'
-import { useFiltersStore } from '~/stores/filtersStore'
+import { useFiltersStore } from '~/stores'
 import {
   showSuccess,
   showError,
@@ -50,15 +50,17 @@ const CoveragePeriodsSavedFilter: React.FC<{
     <div>
       <div className="space-y-4 flex-1 overflow-y-auto">
         {savedFilters?.length === 0 ? (
-          <div className="text-gray-500 text-sm">No filters saved</div>
+          <div className="text-gray-500 dark:text-gray-400 text-sm">
+            No filters saved
+          </div>
         ) : (
           <div>
             {savedFilters?.map(filter => (
               <div
                 key={filter.id}
-                className={`group flex items-center justify-between px-4 hover:bg-ideon-light transition-colors h-16 cursor-pointer ${
+                className={`group flex items-center justify-between px-4 hover:bg-ideon-light dark:hover:bg-gray-700 transition-colors h-16 cursor-pointer text-ideon-dark dark:text-gray-300 ${
                   (filter.filters === activeFilters || filter.isDefault) &&
-                  'bg-ideon-light'
+                  'bg-ideon-light dark:bg-gray-700'
                 }`}
                 onClick={e => {
                   e.stopPropagation()

@@ -13,8 +13,8 @@ import {
   coveragePeriodsFiltersSchema,
   type CoveragePeriodsFiltersForm,
   defaultCoveragePeriodsFilters,
-} from '~/utils/schemas/coveragePeriodsSchema'
-import { useFiltersStore } from '~/stores/filtersStore'
+} from '~/utils'
+import { useFiltersStore } from '~/stores'
 import { notImplemented, showSuccess } from '~/utils'
 
 const CoveragePeriods: React.FC = () => {
@@ -85,7 +85,10 @@ const CoveragePeriods: React.FC = () => {
   }
 
   return (
-    <main className="bg-white rounded-md h-full flex flex-col" role="main">
+    <main
+      className="bg-white dark:bg-ideon-dark-100 rounded-md h-full flex flex-col"
+      role="main"
+    >
       <CoveragePeriodsFilterOffcanvas
         isOpen={isOffcanvasOpen}
         onClose={handleCloseOffcanvas}
@@ -95,7 +98,9 @@ const CoveragePeriods: React.FC = () => {
 
       <header className="p-4 pt-6">
         <div className="flex justify-between items-center">
-          <h1 className="text-2xl font-bold">Coverage Periods</h1>
+          <h1 className="text-2xl font-bold text-ideon-dark dark:text-gray-50">
+            Coverage Periods
+          </h1>
           <div
             className="flex items-center gap-2"
             role="toolbar"

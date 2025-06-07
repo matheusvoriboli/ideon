@@ -46,7 +46,7 @@ const Table: React.FC<TableProps> & {
   return (
     <div className="overflow-x-auto">
       <table
-        className={`min-w-full bg-white border border-ideon-light rounded-lg ${className}`}
+        className={`min-w-full bg-white dark:bg-ideon-dark-100 border border-ideon-light dark:border-gray-600 rounded-lg ${className}`}
         aria-label={ariaLabel}
         role="table"
       >
@@ -62,7 +62,10 @@ const TableHeader: React.FC<TableHeaderProps> = ({
   className = '',
 }) => {
   return (
-    <thead className={`bg-ideon-light ${className}`} role="rowgroup">
+    <thead
+      className={`bg-ideon-light dark:bg-gray-800 ${className}`}
+      role="rowgroup"
+    >
       {children}
     </thead>
   )
@@ -71,7 +74,7 @@ const TableHeader: React.FC<TableHeaderProps> = ({
 const TableBody: React.FC<TableBodyProps> = ({ children, className = '' }) => {
   return (
     <tbody
-      className={`divide-y divide-ideon-light ${className}`}
+      className={`divide-y divide-ideon-light dark:divide-gray-600 ${className}`}
       role="rowgroup"
     >
       {children}
@@ -84,7 +87,8 @@ const TableRow: React.FC<TableRowProps> = ({
   className = '',
   isHeader = false,
 }) => {
-  const baseClasses = isHeader && 'border-b border-gray-200'
+  const baseClasses =
+    isHeader && 'border-b border-gray-200 dark:border-gray-600'
 
   return (
     <tr className={`${baseClasses} ${className}`} role="row">
@@ -112,8 +116,8 @@ const TableCell: React.FC<TableCellProps> = ({
   }
 
   const baseClasses = isHeader
-    ? 'px-4 py-2.5 border-r border-gray-200 last:border-r-0'
-    : 'px-4 py-2 border-r border-gray-200 last:border-r-0'
+    ? 'px-4 py-2.5 border-r border-gray-200 dark:border-gray-600 last:border-r-0 text-ideon-dark dark:text-gray-300'
+    : 'px-4 py-2 border-r border-gray-200 dark:border-gray-600 last:border-r-0 text-ideon-dark dark:text-gray-300'
 
   const Component = isHeader ? 'th' : 'td'
   const cellScope = isHeader ? scope || 'col' : undefined
@@ -124,12 +128,12 @@ const TableCell: React.FC<TableCellProps> = ({
     const isActive = currentSortColumn === sortColumn
     const upColor =
       isActive && currentSortDirection === 'asc'
-        ? 'text-ideon-primary-300'
-        : 'text-gray-300'
+        ? 'text-ideon-primary-300 dark:text-ideon-primary-400'
+        : 'text-gray-300 dark:text-gray-600'
     const downColor =
       isActive && currentSortDirection === 'desc'
-        ? 'text-ideon-primary-300'
-        : 'text-gray-300'
+        ? 'text-ideon-primary-300 dark:text-ideon-primary-400'
+        : 'text-gray-300 dark:text-gray-600'
 
     return (
       <div className="flex flex-col">
